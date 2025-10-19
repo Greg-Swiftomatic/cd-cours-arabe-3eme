@@ -1,0 +1,55 @@
+---
+interface Props {
+  blockNumber: number;
+  title: string;
+  objective: string;
+  duration: string;
+  color: string;
+  icon: string;
+}
+
+const { blockNumber, title, objective, duration, color, icon } = Astro.props;
+
+const colorClasses = {
+  green: 'bg-green-500 border-green-600',
+  yellow: 'bg-yellow-500 border-yellow-600',
+  orange: 'bg-orange-500 border-orange-600',
+  blue: 'bg-blue-500 border-blue-600',
+  purple: 'bg-purple-500 border-purple-600',
+  brown: 'bg-amber-700 border-amber-800',
+  black: 'bg-gray-800 border-gray-900'
+};
+---
+
+<div class="exercise-block glass-panel overflow-hidden" data-block={blockNumber}>
+  <div class={`flex items-center justify-between p-4 text-white ${colorClasses[color]}`}>
+    <div class="flex items-center gap-3">
+      <span class="text-3xl">{icon}</span>
+      <div>
+        <h3 class="text-xl font-bold">الكتلة {blockNumber} – {title}</h3>
+        <p class="text-sm opacity-90">{objective}</p>
+      </div>
+    </div>
+    <div class="flex items-center gap-2 rounded-full bg-white/20 px-3 py-1 text-sm">
+      <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+      </svg>
+      <span>{duration}</span>
+    </div>
+  </div>
+
+  <div class="p-6 space-y-6" dir="rtl">
+    <slot />
+  </div>
+
+  <!-- Progress bar -->
+  <div class="px-6 pb-6">
+    <div class="flex items-center justify-between text-sm text-gray-600 mb-2">
+      <span>التقدم</span>
+      <span class="progress-text">٠/٠</span>
+    </div>
+    <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+      <div class="progress-bar h-full bg-gradient-to-r from-primary-500 to-primary-600 transition-all duration-500" style="width: 0%"></div>
+    </div>
+  </div>
+</div>

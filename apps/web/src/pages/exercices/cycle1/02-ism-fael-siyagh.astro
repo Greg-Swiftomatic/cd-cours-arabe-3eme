@@ -1,0 +1,495 @@
+---
+import MainLayout from "@layouts/MainLayout.astro";
+import ExerciseBlock from "@components/ExerciseBlock.astro";
+import ExerciseMultipleChoice from "@components/ExerciseMultipleChoice.astro";
+import ExerciseFillBlank from "@components/ExerciseFillBlank.astro";
+import ExerciseMatching from "@components/ExerciseMatching.astro";
+---
+
+<MainLayout title="تمارين: اسم الفاعل وصيغ المبالغة" description="تمارين تفاعلية مع تصحيح فوري وتتبع التقدم.">
+  <div class="relative isolate overflow-hidden px-6 pb-20 pt-12 sm:px-10 lg:px-16">
+    <div class="pointer-events-none absolute inset-0 -z-10 opacity-20">
+      <div class="absolute left-10 top-16 h-72 w-72 rounded-full bg-primary-200 blur-3xl"></div>
+      <div class="absolute right-0 top-0 h-80 w-80 rounded-full bg-accent-100 blur-3xl"></div>
+    </div>
+
+    <div class="mx-auto max-w-5xl">
+      <!-- Header -->
+      <div class="mb-10 flex flex-col gap-6 text-right" dir="rtl">
+        <div class="flex flex-wrap items-center justify-between gap-4">
+          <a href="/cours/cycle1/02-ism-fael-siyagh" class="rounded-full border border-gray-300 bg-white px-5 py-2 text-sm font-medium text-gray-700 shadow-sm transition hover:bg-gray-50">
+            ← العودة إلى الدرس
+          </a>
+          <span class="rounded-full border border-primary-300 bg-primary-50 px-4 py-2 text-xs font-semibold text-primary-700">
+            الدورة الأولى
+          </span>
+        </div>
+        <h1 class="font-display text-4xl text-gray-900">تمارين: اسم الفاعل وصيغ المبالغة</h1>
+        <p class="max-w-2xl text-base leading-7 text-gray-600">
+          ٧ كتل تفاعلية مع تصحيح فوري لإتقان الدرس خطوة بخطوة.
+        </p>
+      </div>
+
+      <!-- Overall Progress -->
+      <div class="glass-panel mb-10 p-6">
+        <div class="flex items-center justify-between mb-3">
+          <h2 class="text-xl font-bold text-gray-900" dir="rtl">التقدم الإجمالي</h2>
+          <span class="text-sm text-gray-600" id="overall-progress">٠/٧ كتل مكتملة</span>
+        </div>
+        <div class="h-3 bg-gray-200 rounded-full overflow-hidden">
+          <div id="overall-progress-bar" class="h-full bg-gradient-to-r from-green-500 to-emerald-600 transition-all duration-700" style="width: 0%"></div>
+        </div>
+      </div>
+
+      <!-- Exercise Blocks -->
+      <div class="space-y-8">
+
+        <!-- Block 1: Observation -->
+        <ExerciseBlock
+          blockNumber={1}
+          title="الملاحظة والاكتشاف"
+          objective="التعرف على وظيفة اسم الفاعل في الجمل"
+          duration="٨ دقائق"
+          color="green"
+          icon="🔍"
+        >
+          <ExerciseMultipleChoice
+            id="ex1-1"
+            question="اختر الكلمة التي تدلّ على من قام بالفعل: التلميذُ طالبُ العلمِ."
+            options={["التلميذ", "طالب", "العلم"]}
+            correctAnswer={1}
+            feedback={{
+              correct: "أحسنت! 'طالب' هو اسم الفاعل، يدلّ على من قام بفعل الطلب.",
+              incorrect: "تذكّر: اسم الفاعل يدلّ على من قام بالفعل. راجع التعريف."
+            }}
+          />
+
+          <ExerciseMultipleChoice
+            id="ex1-2"
+            question="اختر الكلمة التي تدلّ على من قام بالفعل: المعلمُ مربي الأجيال."
+            options={["المعلم", "مربي", "الأجيال"]}
+            correctAnswer={1}
+            feedback={{
+              correct: "ممتاز! 'مربي' اسم فاعل من الفعل 'ربّى'.",
+              incorrect: "انتبه: ابحث عن الكلمة التي تدل على من يقوم بالفعل."
+            }}
+          />
+
+          <ExerciseMultipleChoice
+            id="ex1-3"
+            question="اختر الكلمة التي تدلّ على من قام بالفعل: المؤمنُ شاكرٌ نِعَمَ اللهِ."
+            options={["المؤمن", "شاكر", "نعم"]}
+            correctAnswer={1}
+            feedback={{
+              correct: "رائع! 'شاكر' اسم فاعل من الفعل 'شكر'.",
+              incorrect: "فكّر: من الذي يقوم بفعل الشكر؟"
+            }}
+          />
+
+          <ExerciseMatching
+            id="ex1-4"
+            question="اربط كل اسم فاعل بفعله الأصلي:"
+            pairs={[
+              { left: "طالب", right: "طلب" },
+              { left: "سامع", right: "سمع" },
+              { left: "شاكر", right: "شكر" }
+            ]}
+            feedback={{
+              correct: "ممتاز! تعرف العلاقة بين اسم الفاعل وفعله.",
+              incorrect: "راجع: اسم الفاعل مشتق من الفعل الماضي."
+            }}
+          />
+        </ExerciseBlock>
+
+        <!-- Block 2: Understanding -->
+        <ExerciseBlock
+          blockNumber={2}
+          title="الفهم والتحليل"
+          objective="بناء قاعدة صياغة اسم الفاعل"
+          duration="١٠ دقائق"
+          color="yellow"
+          icon="💡"
+        >
+          <ExerciseFillBlank
+            id="ex2-1"
+            question="صُغ اسم الفاعل من الفعل 'كتب':"
+            correctAnswer="كاتب"
+            feedback={{
+              correct: "صحيح! من الفعل الثلاثي 'كتب' نصوغ 'كاتب' على وزن فاعل.",
+              incorrect: "تذكّر: من الثلاثي على وزن فاعل. الجواب الصحيح: كاتب"
+            }}
+          />
+
+          <ExerciseFillBlank
+            id="ex2-2"
+            question="صُغ اسم الفاعل من الفعل 'استنتج':"
+            correctAnswer="مستنتج"
+            feedback={{
+              correct: "ممتاز! من غير الثلاثي: يستنتج ← مستنتج (ميم مضمومة وكسر ما قبل الآخر).",
+              incorrect: "راجع قاعدة غير الثلاثي: نبدل حرف المضارعة ميماً مضمومة ونكسر ما قبل الآخر."
+            }}
+          />
+
+          <ExerciseFillBlank
+            id="ex2-3"
+            question="صُغ اسم الفاعل من الفعل 'انفتح':"
+            correctAnswer="منفتح"
+            feedback={{
+              correct: "أحسنت! ينفتح ← منفتح",
+              incorrect: "تذكّر: من المضارع 'ينفتح' نستبدل الياء بميم مضمومة."
+            }}
+          />
+
+          <ExerciseMultipleChoice
+            id="ex2-4"
+            question="كيف نصوغ اسم الفاعل من الفعل الثلاثي؟"
+            options={[
+              "على وزن مفعول",
+              "على وزن فاعل",
+              "على وزن مضارعه"
+            ]}
+            correctAnswer={1}
+            feedback={{
+              correct: "ممتاز! اسم الفاعل من الثلاثي يُصاغ على وزن فاعل.",
+              incorrect: "راجع القاعدة: الفعل الثلاثي ← فاعل (مثل: كتب ← كاتب)"
+            }}
+          />
+        </ExerciseBlock>
+
+        <!-- Block 3: Guided Application -->
+        <ExerciseBlock
+          blockNumber={3}
+          title="التطبيق الموجّه"
+          objective="تكوين واستعمال اسم الفاعل في جمل"
+          duration="١٢ دقيقة"
+          color="orange"
+          icon="✍️"
+        >
+          <ExerciseFillBlank
+            id="ex3-1"
+            question="حوّل الفعل 'حفظ' إلى اسم فاعل:"
+            correctAnswer="حافظ"
+            feedback={{
+              correct: "ممتاز! حفظ ← حافظ (على وزن فاعل)",
+              incorrect: "الجواب الصحيح: حافظ"
+            }}
+          />
+
+          <ExerciseFillBlank
+            id="ex3-2"
+            question="حوّل الفعل 'استمع' إلى اسم فاعل:"
+            correctAnswer="مستمع"
+            feedback={{
+              correct: "صحيح! يستمع ← مستمع",
+              incorrect: "من المضارع: يستمع ← نستبدل الياء بميم مضمومة ← مستمع"
+            }}
+          />
+
+          <ExerciseMultipleChoice
+            id="ex3-3"
+            question="أكمل: المسلم ______ ربَّه."
+            options={["مطيع", "طاعة", "أطاع"]}
+            correctAnswer={0}
+            feedback={{
+              correct: "أحسنت! 'مطيع' اسم فاعل من الفعل 'أطاع'.",
+              incorrect: "نحتاج اسم فاعل هنا، وهو: مطيع"
+            }}
+          />
+
+          <ExerciseMultipleChoice
+            id="ex3-4"
+            question="في أي جملة اسم الفاعل عامل؟"
+            options={[
+              "المسلمُ متواضعٌ",
+              "أقبل الحافظُ كتابَ الله",
+              "الكتابُ مفيدٌ"
+            ]}
+            correctAnswer={1}
+            feedback={{
+              correct: "ممتاز! 'الحافظ' مقترن بـ(ال) ورفع فاعلاً مستتراً ونصب 'كتاب' مفعولاً به.",
+              incorrect: "ابحث عن الجملة التي فيها اسم الفاعل يعمل عمل فعله (يرفع فاعلاً وينصب مفعولاً)."
+            }}
+          />
+        </ExerciseBlock>
+
+        <!-- Block 4: Grammatical Analysis -->
+        <ExerciseBlock
+          blockNumber={4}
+          title="عمل اسم الفاعل"
+          objective="فهم كيفية عمل اسم الفاعل"
+          duration="١٠ دقائق"
+          color="blue"
+          icon="🔬"
+        >
+          <ExerciseMultipleChoice
+            id="ex4-1"
+            question="في الجملة 'أقبل الحافظُ كتابَ الله' ما إعراب 'كتاب'؟"
+            options={[
+              "فاعل",
+              "مفعول به",
+              "مضاف إليه"
+            ]}
+            correctAnswer={1}
+            feedback={{
+              correct: "صحيح! 'كتاب' مفعول به لاسم الفاعل 'الحافظ'.",
+              incorrect: "'كتاب' منصوب، فهو مفعول به لاسم الفاعل 'الحافظ'."
+            }}
+          />
+
+          <ExerciseMultipleChoice
+            id="ex4-2"
+            question="متى يعمل اسم الفاعل المجرد من (ال)؟"
+            options={[
+              "دائماً بدون شروط",
+              "إذا دلّ على الحاضر أو المستقبل وسبقه نفي أو استفهام أو نداء",
+              "لا يعمل أبداً"
+            ]}
+            correctAnswer={1}
+            feedback={{
+              correct: "ممتاز! اسم الفاعل المجرد من (ال) يعمل بشروط.",
+              incorrect: "راجع شروط عمل اسم الفاعل المجرد من (ال)."
+            }}
+          />
+
+          <ExerciseMultipleChoice
+            id="ex4-3"
+            question="لماذا لا يعمل اسم الفاعل في 'المسلم المتواضع محبوب'؟"
+            options={[
+              "لأنه لا يقصد به بيان فاعله أو مفعوله",
+              "لأنه خطأ نحوياً",
+              "لأنه منصوب"
+            ]}
+            correctAnswer={0}
+            feedback={{
+              correct: "صحيح! هنا اسم الفاعل مجرد صفة ولا يعمل.",
+              incorrect: "في هذه الجملة 'المتواضع' مجرد صفة للمسلم، ولا يقصد به بيان من يتواضع."
+            }}
+          />
+        </ExerciseBlock>
+
+        <!-- Block 5: Hyperbole Forms -->
+        <ExerciseBlock
+          blockNumber={5}
+          title="صيغ المبالغة"
+          objective="التمييز بين صيغ المبالغة وأوزانها"
+          duration="١٢ دقيقة"
+          color="purple"
+          icon="⚡"
+        >
+          <ExerciseMatching
+            id="ex5-1"
+            question="اربط كل صيغة مبالغة بوزنها:"
+            pairs={[
+              { left: "غفّار", right: "فعّال" },
+              { left: "شكور", right: "فعول" },
+              { left: "حليم", right: "فعيل" }
+            ]}
+            feedback={{
+              correct: "ممتاز! تعرف أوزان صيغ المبالغة جيداً.",
+              incorrect: "راجع الأوزان الخمسة: فعّال، فعول، فعيل، مفعال، فعِل"
+            }}
+          />
+
+          <ExerciseFillBlank
+            id="ex5-2"
+            question="صُغ صيغة مبالغة من الفعل 'غفر' على وزن فعول:"
+            correctAnswer="غفور"
+            feedback={{
+              correct: "أحسنت! غفر ← غفور (على وزن فعول)",
+              incorrect: "على وزن فعول: غفور"
+            }}
+          />
+
+          <ExerciseMultipleChoice
+            id="ex5-3"
+            question="من هو الذي يكثر من الغفران؟"
+            options={["غافر", "غفور", "مغفور"]}
+            correctAnswer={1}
+            feedback={{
+              correct: "ممتاز! 'غفور' صيغة مبالغة تدل على الكثرة في الفعل.",
+              incorrect: "'غفور' صيغة مبالغة تدل على المبالغة في الغفران."
+            }}
+          />
+
+          <ExerciseMultipleChoice
+            id="ex5-4"
+            question="هل تعمل صيغ المبالغة عمل اسم الفاعل؟"
+            options={[
+              "لا، أبداً",
+              "نعم، بنفس شروط اسم الفاعل",
+              "نعم، بدون شروط"
+            ]}
+            correctAnswer={1}
+            feedback={{
+              correct: "صحيح! صيغ المبالغة تعمل عمل اسم الفاعل بنفس شروطه.",
+              incorrect: "صيغ المبالغة تعمل عمل فعلها المتعدي بشروط اسم الفاعل."
+            }}
+          />
+        </ExerciseBlock>
+
+        <!-- Block 6: Reinvestment -->
+        <ExerciseBlock
+          blockNumber={6}
+          title="إنتاج وتثبيت"
+          objective="استخدام ما تعلّمته بشكل حر"
+          duration="١٠ دقائق"
+          color="brown"
+          icon="🎯"
+        >
+          <ExerciseMatching
+            id="ex6-1"
+            question="صنّف كل كلمة إلى نوعها:"
+            pairs={[
+              { left: "حافظ", right: "اسم فاعل" },
+              { left: "شكور", right: "صيغة مبالغة" },
+              { left: "مستمع", right: "اسم فاعل" },
+              { left: "معوان", right: "صيغة مبالغة" }
+            ]}
+            feedback={{
+              correct: "ممتاز! تميّز بين اسم الفاعل وصيغ المبالغة جيداً.",
+              incorrect: "راجع: اسم الفاعل (فاعل، مفاعل) وصيغ المبالغة (فعّال، فعول، فعيل، مفعال، فعِل)"
+            }}
+          />
+
+          <ExerciseFillBlank
+            id="ex6-2"
+            question="أكمل بصيغة مبالغة مناسبة: المؤمن ______ ربَّه. (من الفعل 'صبر')"
+            correctAnswer="صبور"
+            placeholder="صيغة مبالغة على وزن فعول"
+            feedback={{
+              correct: "رائع! 'صبور' صيغة مبالغة تدل على كثرة الصبر.",
+              incorrect: "المطلوب صيغة مبالغة من 'صبر' على وزن فعول: صبور"
+            }}
+          />
+
+          <ExerciseFillBlank
+            id="ex6-3"
+            question="حوّل 'سمع' إلى صيغة مبالغة على وزن فعّال:"
+            correctAnswer="سماع"
+            feedback={{
+              correct: "ممتاز! سمع ← سماع (على وزن فعّال)",
+              incorrect: "على وزن فعّال: سماع"
+            }}
+          />
+        </ExerciseBlock>
+
+        <!-- Block 7: Final Quiz -->
+        <ExerciseBlock
+          blockNumber={7}
+          title="الاختبار النهائي"
+          objective="تقييم شامل للدرس"
+          duration="١٥ دقيقة"
+          color="black"
+          icon="🏆"
+        >
+          <div class="bg-gradient-to-br from-gray-800 to-gray-900 text-white rounded-xl p-6 mb-6">
+            <h3 class="text-2xl font-bold mb-2" dir="rtl">اختبار نهائي شامل</h3>
+            <p class="text-gray-300" dir="rtl">هذا الاختبار يقيّم فهمك الكامل للدرس. اجتهد!</p>
+          </div>
+
+          <ExerciseMultipleChoice
+            id="ex7-1"
+            question="ما هو اسم الفاعل؟"
+            options={[
+              "اسم يدل على الحدث فقط",
+              "اسم مشتق للدلالة على من قام بالفعل",
+              "اسم يدل على المفعول"
+            ]}
+            correctAnswer={1}
+            feedback={{
+              correct: "ممتاز! فهمت التعريف جيداً.",
+              incorrect: "راجع تعريف اسم الفاعل في بداية الدرس."
+            }}
+          />
+
+          <ExerciseFillBlank
+            id="ex7-2"
+            question="صُغ اسم الفاعل من 'انكسر':"
+            correctAnswer="منكسر"
+            feedback={{
+              correct: "صحيح! ينكسر ← منكسر",
+              incorrect: "من المضارع 'ينكسر' نستبدل الياء بميم مضمومة: منكسر"
+            }}
+          />
+
+          <ExerciseMultipleChoice
+            id="ex7-3"
+            question="أي الجمل التالية تحتوي على صيغة مبالغة؟"
+            options={[
+              "الطالب كاتب الدرس",
+              "المؤمن شكور نعمة الله",
+              "المعلم حافظ القرآن"
+            ]}
+            correctAnswer={1}
+            feedback={{
+              correct: "رائع! 'شكور' صيغة مبالغة على وزن فعول.",
+              incorrect: "'شكور' في الجملة الثانية هي صيغة مبالغة على وزن فعول."
+            }}
+          />
+
+          <ExerciseMatching
+            id="ex7-4"
+            question="اختبار نهائي - اربط كل عنصر بما يناسبه:"
+            pairs={[
+              { left: "كاتب", right: "اسم فاعل من ثلاثي" },
+              { left: "مستنتج", right: "اسم فاعل من غير ثلاثي" },
+              { left: "غفور", right: "صيغة مبالغة" }
+            ]}
+            feedback={{
+              correct: "مبروك! أتممت الدرس بنجاح! 🎉",
+              incorrect: "راجع جميع الكتل السابقة قبل المتابعة."
+            }}
+          />
+
+          <div class="mt-8 p-6 bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-200 rounded-xl" dir="rtl">
+            <h4 class="text-xl font-bold text-green-900 mb-2">🎉 أحسنت العمل!</h4>
+            <p class="text-green-800 mb-4">بإتمامك للاختبار النهائي، تكون قد أنهيت جميع تمارين الدرس.</p>
+            <a href="/cours/cycle1/02-ism-fael-siyagh" class="inline-block rounded-full bg-green-600 px-6 py-3 font-semibold text-white shadow-lg transition hover:bg-green-700">
+              العودة إلى الدرس
+            </a>
+          </div>
+        </ExerciseBlock>
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    import { initializeExercises } from '@scripts/exercises';
+    initializeExercises();
+
+    // Track overall progress
+    const blocks = document.querySelectorAll('.exercise-block');
+    const overallProgressBar = document.getElementById('overall-progress-bar');
+    const overallProgressText = document.getElementById('overall-progress');
+
+    function updateOverallProgress() {
+      let completedBlocks = 0;
+      blocks.forEach(block => {
+        const exercises = block.querySelectorAll('.exercise-item');
+        const completedExercises = block.querySelectorAll('.exercise-item.completed');
+        if (exercises.length === completedExercises.length && exercises.length > 0) {
+          completedBlocks++;
+        }
+      });
+
+      const percentage = (completedBlocks / blocks.length) * 100;
+      if (overallProgressBar) {
+        overallProgressBar.style.width = `${percentage}%`;
+      }
+      if (overallProgressText) {
+        const arabicCompleted = toArabicNumerals(completedBlocks);
+        const arabicTotal = toArabicNumerals(blocks.length);
+        overallProgressText.textContent = `${arabicCompleted}/${arabicTotal} كتل مكتملة`;
+      }
+    }
+
+    function toArabicNumerals(num: number): string {
+      const arabicNums = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+      return num.toString().split('').map(d => arabicNums[parseInt(d)]).join('');
+    }
+
+    // Update every 2 seconds
+    setInterval(updateOverallProgress, 2000);
+  </script>
+</MainLayout>

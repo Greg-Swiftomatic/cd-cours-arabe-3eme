@@ -53,6 +53,27 @@ const cycleTitles: Record<string, string> = {
         </article>
       </section>
 
+      <!-- Interactive Exercises Link -->
+      <div class="glass-panel p-6 bg-gradient-to-br from-primary-50 to-accent-50">
+        <div class="flex items-center justify-between flex-wrap gap-4" dir="rtl">
+          <div class="flex items-center gap-4">
+            <div class="flex h-14 w-14 items-center justify-center rounded-full bg-primary-600 text-2xl text-white shadow-lg">
+              ✍️
+            </div>
+            <div>
+              <h3 class="text-xl font-bold text-gray-900">تمارين تفاعلية</h3>
+              <p class="text-sm text-gray-600">٧ كتل تدريبية مع تصحيح فوري</p>
+            </div>
+          </div>
+          <a
+            href={`/exercices/${lesson.cycle}/${lesson.slug}`}
+            class="rounded-full bg-primary-600 px-8 py-3 font-semibold text-white shadow-lg transition hover:bg-primary-700 hover:scale-105"
+          >
+            ابدأ التمارين ←
+          </a>
+        </div>
+      </div>
+
       <QuizRunner lesson={lesson} quiz={quiz} />
     </div>
   </div>

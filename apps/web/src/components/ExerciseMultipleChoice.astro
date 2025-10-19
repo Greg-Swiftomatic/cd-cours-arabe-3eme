@@ -1,0 +1,53 @@
+---
+interface Props {
+  id: string;
+  question: string;
+  options: string[];
+  correctAnswer: number;
+  feedback: {
+    correct: string;
+    incorrect: string;
+  };
+}
+
+const { id, question, options, correctAnswer, feedback } = Astro.props;
+---
+
+<div class="exercise-item mb-6" data-exercise-id={id} data-correct={correctAnswer}>
+  <div class="bg-gray-50 border border-gray-200 rounded-xl p-5">
+    <p class="text-lg font-semibold text-gray-900 mb-4">{question}</p>
+
+    <div class="space-y-3">
+      {options.map((option, index) => (
+        <label class="flex items-center gap-3 p-4 bg-white border-2 border-gray-200 rounded-lg cursor-pointer transition-all hover:border-primary-400 hover:shadow-md group">
+          <input
+            type="radio"
+            name={id}
+            value={index}
+            class="h-5 w-5 text-primary-600 border-gray-300 focus:ring-primary-500"
+          />
+          <span class="flex-1 text-base text-gray-800 group-hover:text-gray-900">{option}</span>
+        </label>
+      ))}
+    </div>
+
+    <!-- Feedback area -->
+    <div class="feedback hidden mt-4 p-4 rounded-lg" data-feedback>
+      <div class="flex items-start gap-3">
+        <svg class="feedback-icon h-6 w-6 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"></svg>
+        <div>
+          <p class="feedback-title font-semibold mb-1"></p>
+          <p class="feedback-message text-sm"></p>
+        </div>
+      </div>
+    </div>
+
+    <button
+      class="check-answer-btn mt-4 rounded-full bg-primary-600 px-6 py-2 text-sm font-semibold text-white shadow-md transition hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed"
+      data-correct-feedback={feedback.correct}
+      data-incorrect-feedback={feedback.incorrect}
+    >
+      تحقق من الإجابة
+    </button>
+  </div>
+</div>
