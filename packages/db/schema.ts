@@ -1,4 +1,11 @@
-import { integer, sqliteTable, text, real } from "drizzle-orm/sqlite-core";
+import {
+  integer,
+  sqliteTable,
+  text,
+  real,
+  index,
+  uniqueIndex,
+} from "drizzle-orm/sqlite-core";
 import { sql } from "drizzle-orm";
 
 export const users = sqliteTable("users", {
@@ -34,6 +41,7 @@ export const attempts = sqliteTable("attempts", {
   id: integer("id").primaryKey({ autoIncrement: true }),
   quizId: integer("quiz_id").references(() => quizzes.id),
   userId: integer("user_id").references(() => users.id),
+  lessonId: integer("lesson_id").references(() => lessons.id),
   startedAt: integer("started_at", { mode: "timestamp_ms" }).default(
     sql`(strftime('%s','now') * 1000)`,
   ),
@@ -50,3 +58,42 @@ export const progress = sqliteTable("progress", {
   bestScore: real("best_score").default(0),
   lastAttemptId: integer("last_attempt_id").references(() => attempts.id),
 });
+
+export const loginCodes = sqliteTable(
+  "login_codes",
+  {
+    id: integer("id").primaryKey({ autoIncrement: true }),
+    email: text("email").notNull(),
+    codeHash: text("code_hash").notNull(),
+    createdAt: integer("created_at", { mode: "timestamp_ms" }).default(
+      sql`(strftime('%s','now') * 1000)`,
+    ),
+    expiresAt: integer("expires_at", { mode: "timestamp_ms" }).notNull(),
+    usedAt: integer("used_at", { mode: "timestamp_ms" }),
+  },
+  (table) => ({
+    emailIdx: index("login_codes_email_idx").on(table.email),
+  }),
+);
+
+export const sessions = sqliteTable(
+  "sessions",
+  {
+    id: integer("id").primaryKey({ autoIncrement: true }),
+    userId: integer("user_id")
+      .notNull()
+      .references(() => users.id),
+    tokenHash: text("token_hash").notNull(),
+    createdAt: integer("created_at", { mode: "timestamp_ms" }).default(
+      sql`(strftime('%s','now') * 1000)`,
+    ),
+    expiresAt: integer("expires_at", { mode: "timestamp_ms" }).notNull(),
+    lastSeen: integer("last_seen", { mode: "timestamp_ms" }).default(
+      sql`(strftime('%s','now') * 1000)`,
+    ),
+  },
+  (table) => ({
+    tokenHashIdx: uniqueIndex("sessions_token_hash_unique").on(table.tokenHash),
+    userIdx: index("sessions_user_idx").on(table.userId),
+  }),
+);
