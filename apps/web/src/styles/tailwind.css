@@ -18,4 +18,29 @@
   .glass-panel {
     @apply rounded-2xl border border-gray-200 bg-white shadow-lg shadow-primary-500/5;
   }
+
+  /* Lesson content tables */
+  .prose table {
+    @apply w-full border-collapse bg-white shadow-md rounded-lg overflow-hidden my-6;
+  }
+
+  .prose thead {
+    @apply bg-primary-600 text-white;
+  }
+
+  .prose thead th {
+    @apply p-3 text-right border-l border-primary-500 font-semibold;
+  }
+
+  .prose tbody tr {
+    @apply border-b border-gray-200 hover:bg-gray-50 transition-colors;
+  }
+
+  .prose tbody tr:nth-child(even) {
+    @apply bg-gray-50;
+  }
+
+  .prose tbody td {
+    @apply p-3 border-l border-gray-200;
+  }
 }
