@@ -21,21 +21,21 @@ const lesson = record.lesson;
 
 <MainLayout title={`اختبار: ${lesson.title_ar}`}>
   <div class="relative isolate overflow-hidden px-6 pb-16 pt-12 sm:px-10 lg:px-16">
-    <div class="pointer-events-none absolute inset-0 -z-10 opacity-40">
-      <div class="absolute left-0 top-10 h-56 w-56 rounded-full bg-primary-500/30 blur-3xl"></div>
-      <div class="absolute bottom-0 right-0 h-72 w-72 rounded-full bg-emerald-500/25 blur-3xl"></div>
+    <div class="pointer-events-none absolute inset-0 -z-10 opacity-20">
+      <div class="absolute left-0 top-10 h-72 w-72 rounded-full bg-primary-200 blur-3xl"></div>
+      <div class="absolute bottom-0 right-0 h-80 w-80 rounded-full bg-accent-100 blur-3xl"></div>
     </div>
 
     <main class="mx-auto flex max-w-4xl flex-col gap-8 text-right" dir="rtl">
       <a
         href={`/cours/${lesson.cycle}/${lesson.slug}`}
-        class="self-start rounded-full border border-white/10 bg-white/10 px-5 py-2 text-sm text-white transition hover:bg-white/20"
+        class="self-start rounded-full border border-gray-300 bg-white px-5 py-2 text-sm font-medium text-gray-700 shadow-sm transition hover:bg-gray-50"
       >
         ← الرجوع إلى الدرس
       </a>
       <header class="space-y-3">
-        <h1 class="font-display text-4xl text-white">اختبار: {lesson.title_ar}</h1>
-        <p class="text-sm leading-7 text-primary-100/70">
+        <h1 class="font-display text-4xl text-gray-900">اختبار: {lesson.title_ar}</h1>
+        <p class="text-base leading-7 text-gray-600">
           أجب عن الأسئلة في الوقت الذي يناسبك. بعد الانتهاء ستحصل على تقييم فوري ويُسجَّل في لوحة المتابعة.
         </p>
       </header>

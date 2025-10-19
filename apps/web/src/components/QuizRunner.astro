@@ -12,8 +12,8 @@ const hasQuestions = quiz && quiz.questions.length > 0;
 
 <section class="glass-panel space-y-6 p-8">
   <header class="flex flex-col gap-2">
-    <h2 class="font-display text-3xl text-white">اختبار الدرس</h2>
-    <p class="text-sm text-primary-100/70">
+    <h2 class="font-display text-3xl text-gray-900">اختبار الدرس</h2>
+    <p class="text-sm text-gray-600">
       أجب عن الأسئلة التالية لتتأكد من فهمك لدرس {lesson.title_ar}.
     </p>
   </header>
@@ -27,35 +27,35 @@ const hasQuestions = quiz && quiz.questions.length > 0;
     >
       {quiz?.questions.map((question, index) => (
         <fieldset
-          class="space-y-4 rounded-2xl border border-white/10 bg-white/5 p-6 transition hover:border-primary-400/40"
+          class="space-y-4 rounded-2xl border border-gray-200 bg-white p-6 transition hover:border-primary-400 hover:shadow-md"
           data-answer={question.answer_index}
           data-question-id={question.id}
         >
           <legend
-            class="flex items-center justify-between font-display text-2xl text-white"
+            class="flex items-center justify-between font-display text-2xl text-gray-900"
             dir="rtl"
           >
             <span>{question.prompt_ar}</span>
-            <span class="rounded-full bg-primary-500/10 px-3 py-1 text-xs text-primary-200">
+            <span class="rounded-full bg-primary-100 px-3 py-1 text-xs font-semibold text-primary-700">
               سؤال {index + 1}
             </span>
           </legend>
           <div class="space-y-3" dir="rtl">
             {question.choices_ar?.map((choice, choiceIndex) => (
-              <label class="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-right text-sm leading-7 text-slate-100 transition hover:border-primary-400 hover:bg-primary-500/10">
+              <label class="flex items-center gap-3 rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 text-right text-sm leading-7 text-gray-900 transition hover:border-primary-400 hover:bg-primary-50 cursor-pointer">
                 <input
                   type="radio"
                   name={question.id}
                   value={choiceIndex}
                   required
-                  class="h-4 w-4 border-primary-400 text-primary-500 focus:ring-primary-400"
+                  class="h-4 w-4 border-gray-300 text-primary-600 focus:ring-primary-500"
                 />
                 <span class="flex-1">{choice}</span>
               </label>
             ))}
           </div>
           {question.explain_fr && (
-            <p class="hidden rounded-xl bg-white/5 px-4 py-3 text-sm text-emerald-200" data-explain>
+            <p class="hidden rounded-xl bg-blue-50 border border-blue-200 px-4 py-3 text-sm text-gray-700" data-explain>
               {question.explain_fr}
             </p>
           )}
@@ -63,19 +63,19 @@ const hasQuestions = quiz && quiz.questions.length > 0;
       ))}
       <button
         type="submit"
-        class="relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full bg-gradient-to-l from-primary-500 to-primary-400 px-10 py-3 text-lg font-semibold text-white shadow-lg shadow-primary-900/30 transition hover:scale-[1.01]"
+        class="relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full bg-primary-600 px-10 py-3 text-lg font-semibold text-white shadow-lg transition hover:bg-primary-700 hover:scale-[1.01]"
       >
         إرسال الإجابات
       </button>
     </form>
   ) : (
-    <p class="text-sm text-primary-100/70">
+    <p class="text-sm text-gray-600">
       الاختبار قيد التحضير. عد لاحقًا للاطلاع على التحديات الجديدة.
     </p>
   )}
 
   <div
-    class="hidden rounded-2xl border border-white/10 bg-white/5 p-6 text-sm text-primary-100/80"
+    class="hidden rounded-2xl border border-gray-200 bg-white p-6 text-sm text-gray-700"
     data-quiz-result
   ></div>
 </section>
@@ -115,11 +115,19 @@ const hasQuestions = quiz && quiz.questions.length > 0;
         const explanation = fieldset.querySelector("[data-explain]");
         if (explanation instanceof HTMLElement) {
           explanation.hidden = false;
-          explanation.classList.toggle("bg-rose-500/10", !isCorrect);
+          if (!isCorrect) {
+            explanation.classList.remove("bg-blue-50", "border-blue-200");
+            explanation.classList.add("bg-red-50", "border-red-200", "text-red-900");
+          } else {
+            explanation.classList.remove("bg-blue-50", "border-blue-200");
+            explanation.classList.add("bg-green-50", "border-green-200", "text-green-900");
+          }
         }
 
-        fieldset.classList.toggle("border-emerald-400/60", isCorrect);
-        fieldset.classList.toggle("border-rose-400/60", !isCorrect);
+        fieldset.classList.toggle("border-green-500", isCorrect);
+        fieldset.classList.toggle("bg-green-50", isCorrect);
+        fieldset.classList.toggle("border-red-500", !isCorrect);
+        fieldset.classList.toggle("bg-red-50", !isCorrect);
       });
 
       const score =
@@ -131,8 +139,8 @@ const hasQuestions = quiz && quiz.questions.length > 0;
       resultBox.classList.remove("hidden");
       resultBox.innerHTML = `
         <div class="flex flex-col gap-2 text-right">
-          <span class="text-lg font-semibold text-white">نتيجتك: ${score}/100</span>
-          <span>${
+          <span class="text-lg font-semibold text-gray-900">نتيجتك: ${score}/100</span>
+          <span class="text-gray-700">${
             score >= passThreshold
               ? "ممتاز! لقد تجاوزت الحد المطلوب لهذا الدرس."
               : "تابع التدريب لتحصل على نتيجة أعلى وتفهمًا أعمق."
