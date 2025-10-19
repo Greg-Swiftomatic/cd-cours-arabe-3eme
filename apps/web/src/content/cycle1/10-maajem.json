@@ -1,0 +1,15 @@
+{
+  "lesson": {
+    "cycle": "cycle1",
+    "slug": "10-maajem",
+    "order": 10,
+    "title_ar": "المعاجم",
+    "title_fr": "Les dictionnaires",
+    "body_html_ar": "<h2 dir=\"rtl\">المعاجم</h2><p dir=\"rtl\">المعاجم هي كتب تجمع مفردات اللغة وتشرح معانيها مرتبة حسب نظام معين.</p><p dir=\"rtl\">سيتم إضافة المحتوى التفصيلي قريبًا.</p>",
+    "body_html_fr": "<h2>Les dictionnaires</h2><p>Livres qui rassemblent le vocabulaire de la langue et expliquent leurs significations.</p>"
+  },
+  "quiz": {
+    "questions": [],
+    "pass_threshold": 80
+  }
+}

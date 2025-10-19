@@ -1,0 +1,15 @@
+{
+  "lesson": {
+    "cycle": "cycle1",
+    "slug": "07-ibdal",
+    "order": 7,
+    "title_ar": "الإبدال",
+    "title_fr": "La substitution",
+    "body_html_ar": "<h2 dir=\"rtl\">الإبدال</h2><p dir=\"rtl\">الإبدال هو جعل حرف مكان حرف آخر لعلة صرفية.</p><p dir=\"rtl\">سيتم إضافة المحتوى التفصيلي قريبًا.</p>",
+    "body_html_fr": "<h2>La substitution</h2><p>Remplacement d'une lettre par une autre pour une raison morphologique.</p>"
+  },
+  "quiz": {
+    "questions": [],
+    "pass_threshold": 80
+  }
+}

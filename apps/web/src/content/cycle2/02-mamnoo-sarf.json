@@ -1,0 +1,15 @@
+{
+  "lesson": {
+    "cycle": "cycle2",
+    "slug": "02-mamnoo-sarf",
+    "order": 2,
+    "title_ar": "الممنوع من الصرف",
+    "title_fr": "Le nom indéclinable",
+    "body_html_ar": "<h2 dir=\"rtl\">الممنوع من الصرف</h2><p dir=\"rtl\">الممنوع من الصرف هو الاسم المعرب الذي لا يقبل التنوين ويجر بالفتحة بدلاً من الكسرة.</p><p dir=\"rtl\">سيتم إضافة المحتوى التفصيلي قريبًا.</p>",
+    "body_html_fr": "<h2>Le nom indéclinable</h2><p>Nom qui n'accepte pas la nunation.</p>"
+  },
+  "quiz": {
+    "questions": [],
+    "pass_threshold": 80
+  }
+}

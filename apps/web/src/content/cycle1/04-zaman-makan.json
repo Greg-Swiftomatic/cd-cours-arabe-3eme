@@ -1,0 +1,15 @@
+{
+  "lesson": {
+    "cycle": "cycle1",
+    "slug": "04-zaman-makan",
+    "order": 4,
+    "title_ar": "أسماء الزمان والمكان",
+    "title_fr": "Noms de temps et de lieu",
+    "body_html_ar": "<h2 dir=\"rtl\">أسماء الزمان والمكان</h2><p dir=\"rtl\">اسم الزمان: اسم مشتق للدلالة على زمان وقوع الفعل. اسم المكان: اسم مشتق للدلالة على مكان وقوع الفعل.</p><p dir=\"rtl\">سيتم إضافة المحتوى التفصيلي قريبًا.</p>",
+    "body_html_fr": "<h2>Noms de temps et de lieu</h2><p>Noms dérivés indiquant le temps ou le lieu de l'action.</p>"
+  },
+  "quiz": {
+    "questions": [],
+    "pass_threshold": 80
+  }
+}

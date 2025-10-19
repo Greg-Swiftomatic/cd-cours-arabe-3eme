@@ -1,0 +1,15 @@
+{
+  "lesson": {
+    "cycle": "cycle2",
+    "slug": "05-uslub-taajub",
+    "order": 5,
+    "title_ar": "أسلوب التعجب",
+    "title_fr": "La forme exclamative",
+    "body_html_ar": "<h2 dir=\"rtl\">أسلوب التعجب</h2><p dir=\"rtl\">أسلوب التعجب هو أسلوب يدل على الدهشة والاستغراب من أمر ما.</p><p dir=\"rtl\">سيتم إضافة المحتوى التفصيلي قريبًا.</p>",
+    "body_html_fr": "<h2>La forme exclamative</h2><p>Expression de l'étonnement et de la surprise.</p>"
+  },
+  "quiz": {
+    "questions": [],
+    "pass_threshold": 80
+  }
+}

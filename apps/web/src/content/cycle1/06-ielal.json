@@ -1,0 +1,15 @@
+{
+  "lesson": {
+    "cycle": "cycle1",
+    "slug": "06-ielal",
+    "order": 6,
+    "title_ar": "الإعلال",
+    "title_fr": "L'affaiblissement",
+    "body_html_ar": "<h2 dir=\"rtl\">الإعلال</h2><p dir=\"rtl\">الإعلال هو تغيير يحدث في حروف العلة (الألف والواو والياء) في الكلمة.</p><p dir=\"rtl\">سيتم إضافة المحتوى التفصيلي قريبًا.</p>",
+    "body_html_fr": "<h2>L'affaiblissement</h2><p>Changement qui se produit dans les lettres faibles (alif, waw, ya) dans le mot.</p>"
+  },
+  "quiz": {
+    "questions": [],
+    "pass_threshold": 80
+  }
+}

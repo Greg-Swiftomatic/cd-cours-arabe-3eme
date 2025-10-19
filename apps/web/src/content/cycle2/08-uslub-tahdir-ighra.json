@@ -1,0 +1,15 @@
+{
+  "lesson": {
+    "cycle": "cycle2",
+    "slug": "08-uslub-tahdir-ighra",
+    "order": 8,
+    "title_ar": "أسلوب التحذير والإغراء",
+    "title_fr": "La mise en garde et l'incitation",
+    "body_html_ar": "<h2 dir=\"rtl\">أسلوب التحذير والإغراء</h2><p dir=\"rtl\">التحذير: تنبيه المخاطب إلى أمر مكروه ليتجنبه. الإغراء: حث المخاطب على أمر محمود ليفعله.</p><p dir=\"rtl\">سيتم إضافة المحتوى التفصيلي قريبًا.</p>",
+    "body_html_fr": "<h2>La mise en garde et l'incitation</h2><p>Avertissement ou encouragement de l'interlocuteur.</p>"
+  },
+  "quiz": {
+    "questions": [],
+    "pass_threshold": 80
+  }
+}

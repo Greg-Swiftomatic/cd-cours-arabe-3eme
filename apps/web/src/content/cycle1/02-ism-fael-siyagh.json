@@ -1,0 +1,15 @@
+{
+  "lesson": {
+    "cycle": "cycle1",
+    "slug": "02-ism-fael-siyagh",
+    "order": 2,
+    "title_ar": "اسم الفاعل وصيغ المبالغة وعملهما",
+    "title_fr": "Nom d'agent et formules d'exagération",
+    "body_html_ar": "<h2 dir=\"rtl\">اسم الفاعل وصيغ المبالغة وعملهما</h2><p dir=\"rtl\">اسم الفاعل هو اسم مشتق من الفعل للدلالة على من قام بالفعل. وصيغ المبالغة تدل على الكثرة والمبالغة في الفعل.</p><p dir=\"rtl\">سيتم إضافة المحتوى التفصيلي قريبًا.</p>",
+    "body_html_fr": "<h2>Nom d'agent</h2><p>Le nom d'agent est dérivé du verbe pour indiquer celui qui effectue l'action.</p>"
+  },
+  "quiz": {
+    "questions": [],
+    "pass_threshold": 80
+  }
+}

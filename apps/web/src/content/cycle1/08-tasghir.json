@@ -1,0 +1,15 @@
+{
+  "lesson": {
+    "cycle": "cycle1",
+    "slug": "08-tasghir",
+    "order": 8,
+    "title_ar": "التصغير",
+    "title_fr": "Le diminutif",
+    "body_html_ar": "<h2 dir=\"rtl\">التصغير</h2><p dir=\"rtl\">التصغير هو تغيير في بنية الكلمة للدلالة على الصغر أو التحقير أو التحبب.</p><p dir=\"rtl\">سيتم إضافة المحتوى التفصيلي قريبًا.</p>",
+    "body_html_fr": "<h2>Le diminutif</h2><p>Changement dans la structure du mot pour indiquer la petitesse ou l'affection.</p>"
+  },
+  "quiz": {
+    "questions": [],
+    "pass_threshold": 80
+  }
+}

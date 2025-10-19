@@ -1,0 +1,15 @@
+{
+  "lesson": {
+    "cycle": "cycle2",
+    "slug": "07-uslub-nida",
+    "order": 7,
+    "title_ar": "أسلوب النداء",
+    "title_fr": "La forme vocative",
+    "body_html_ar": "<h2 dir=\"rtl\">أسلوب النداء</h2><p dir=\"rtl\">أسلوب النداء هو طلب إقبال المخاطب بحرف من حروف النداء.</p><p dir=\"rtl\">سيتم إضافة المحتوى التفصيلي قريبًا.</p>",
+    "body_html_fr": "<h2>La forme vocative</h2><p>Appel de l'attention de l'interlocuteur.</p>"
+  },
+  "quiz": {
+    "questions": [],
+    "pass_threshold": 80
+  }
+}

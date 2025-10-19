@@ -1,0 +1,15 @@
+{
+  "lesson": {
+    "cycle": "cycle2",
+    "slug": "06-uslub-madh-dham",
+    "order": 6,
+    "title_ar": "أسلوب المدح والذم",
+    "title_fr": "L'éloge et le blâme",
+    "body_html_ar": "<h2 dir=\"rtl\">أسلوب المدح والذم</h2><p dir=\"rtl\">أسلوب المدح والذم هو أسلوب يستخدم لإظهار الإعجاب أو الاستهجان.</p><p dir=\"rtl\">سيتم إضافة المحتوى التفصيلي قريبًا.</p>",
+    "body_html_fr": "<h2>L'éloge et le blâme</h2><p>Expression de l'admiration ou de la désapprobation.</p>"
+  },
+  "quiz": {
+    "questions": [],
+    "pass_threshold": 80
+  }
+}

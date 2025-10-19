@@ -1,0 +1,15 @@
+{
+  "lesson": {
+    "cycle": "cycle1",
+    "slug": "05-ism-alah",
+    "order": 5,
+    "title_ar": "اسم الآلة",
+    "title_fr": "Nom de l'instrument",
+    "body_html_ar": "<h2 dir=\"rtl\">اسم الآلة</h2><p dir=\"rtl\">اسم الآلة هو اسم مشتق من الفعل للدلالة على الأداة التي يتم بها الفعل.</p><p dir=\"rtl\">سيتم إضافة المحتوى التفصيلي قريبًا.</p>",
+    "body_html_fr": "<h2>Nom de l'instrument</h2><p>Nom dérivé du verbe pour indiquer l'outil avec lequel l'action est effectuée.</p>"
+  },
+  "quiz": {
+    "questions": [],
+    "pass_threshold": 80
+  }
+}

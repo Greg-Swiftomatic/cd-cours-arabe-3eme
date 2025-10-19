@@ -1,0 +1,15 @@
+{
+  "lesson": {
+    "cycle": "cycle1",
+    "slug": "00-summary",
+    "order": 0,
+    "title_ar": "ملخص قواعد اللغة العربية الدورة الأولى",
+    "title_fr": "Résumé des règles de grammaire arabe - Cycle 1",
+    "body_html_ar": "<h2 dir=\"rtl\">ملخص قواعد اللغة العربية الدورة الأولى</h2><p dir=\"rtl\">هذا الدرس يقدم ملخصًا شاملاً لجميع قواعد اللغة العربية التي سيتم تناولها في الدورة الأولى.</p><p dir=\"rtl\">سيتم إضافة المحتوى التفصيلي قريبًا.</p>",
+    "body_html_fr": "<h2>Résumé</h2><p>Ce cours présente un résumé complet de toutes les règles de grammaire arabe qui seront abordées dans le premier cycle.</p>"
+  },
+  "quiz": {
+    "questions": [],
+    "pass_threshold": 80
+  }
+}

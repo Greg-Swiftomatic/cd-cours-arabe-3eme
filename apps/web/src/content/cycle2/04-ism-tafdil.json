@@ -1,0 +1,15 @@
+{
+  "lesson": {
+    "cycle": "cycle2",
+    "slug": "04-ism-tafdil",
+    "order": 4,
+    "title_ar": "اسم التفضيل",
+    "title_fr": "Le comparatif et le superlatif",
+    "body_html_ar": "<h2 dir=\"rtl\">اسم التفضيل</h2><p dir=\"rtl\">اسم التفضيل هو اسم مشتق من الفعل على وزن أفعل للدلالة على أن شيئين اشتركا في صفة وزاد أحدهما على الآخر.</p><p dir=\"rtl\">سيتم إضافة المحتوى التفصيلي قريبًا.</p>",
+    "body_html_fr": "<h2>Le comparatif et le superlatif</h2><p>Nom dérivé du verbe pour indiquer une comparaison.</p>"
+  },
+  "quiz": {
+    "questions": [],
+    "pass_threshold": 80
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "lesson": {
+    "cycle": "cycle1",
+    "slug": "03-ism-mafoul",
+    "order": 3,
+    "title_ar": "اسم المفعول وعمله",
+    "title_fr": "Nom du patient et son fonctionnement",
+    "body_html_ar": "<h2 dir=\"rtl\">اسم المفعول وعمله</h2><p dir=\"rtl\">اسم المفعول هو اسم مشتق من الفعل للدلالة على من وقع عليه الفعل.</p><p dir=\"rtl\">سيتم إضافة المحتوى التفصيلي قريبًا.</p>",
+    "body_html_fr": "<h2>Nom du patient</h2><p>Le nom du patient est dérivé du verbe pour indiquer celui qui subit l'action.</p>"
+  },
+  "quiz": {
+    "questions": [],
+    "pass_threshold": 80
+  }
+}

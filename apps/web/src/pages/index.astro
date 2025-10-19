@@ -7,9 +7,9 @@ const cycle1 = getLessonsByCycle("cycle1");
 const cycle2 = getLessonsByCycle("cycle2");
 
 const stats = [
-  { label: "دروس تفاعلية", value: "١٠", icon: "📚" },
-  { label: "اختبارات جاهزة", value: "٢٥", icon: "📝" },
-  { label: "متابعون نشطون", value: "٣٢", icon: "👩‍👦" },
+  { label: "دروس الدورة الأولى", value: "١١", icon: "📚" },
+  { label: "دروس الدورة الثانية", value: "١٠", icon: "📖" },
+  { label: "مجموع الاختبارات", value: "٢١", icon: "📝" },
 ];
 ---
 
@@ -70,16 +70,19 @@ const stats = [
 
   <main class="mx-auto max-w-6xl space-y-14 px-6 pb-20 sm:px-10 lg:px-16">
     <section id="cycle1" class="space-y-6">
-      <header class="flex flex-col gap-3" dir="rtl">
-        <p class="text-sm font-semibold uppercase tracking-wide text-primary-600">الدورة الأولى</p>
-        <div class="flex flex-col gap-3 text-right">
-          <h2 class="font-display text-4xl text-gray-900">أساسيات راسخة ونطق سليم</h2>
-          <p class="max-w-3xl text-base leading-7 text-gray-600">
-            وحدات مركّزة على الصرف والنحو مع أمثلة واضحة، بطاقات مراجعة، واختبارات فورية تقيس تقدّم المتعلّم وتمنحك صورة لحظية عن مستواه.
-          </p>
+      <header class="flex flex-col gap-4" dir="rtl">
+        <div class="flex items-center gap-3">
+          <span class="flex h-10 w-10 items-center justify-center rounded-full bg-primary-600 text-lg font-bold text-white">١</span>
+          <div>
+            <p class="text-sm font-semibold uppercase tracking-wide text-primary-600">الدورة الأولى</p>
+            <h2 class="font-display text-3xl text-gray-900">الدروس اللغوية - الأساسيات</h2>
+          </div>
         </div>
+        <p class="max-w-3xl text-base leading-7 text-gray-600">
+          وحدات مركّزة على الصرف والنحو مع أمثلة واضحة، بطاقات مراجعة، واختبارات فورية تقيس تقدّم المتعلّم وتمنحك صورة لحظية عن مستواه.
+        </p>
       </header>
-      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {cycle1.map((lesson) => (
           <LessonCard lesson={lesson} />
         ))}
@@ -87,25 +90,23 @@ const stats = [
     </section>
 
     <section class="space-y-6" id="cycle2">
-      <header class="flex flex-col gap-3 text-right" dir="rtl">
-        <p class="text-sm font-semibold uppercase tracking-wide text-primary-600">الدورة الثانية</p>
-        <h2 class="font-display text-4xl text-gray-900">تعبير أعمق ومشاريع تطبيقية</h2>
+      <header class="flex flex-col gap-4 text-right" dir="rtl">
+        <div class="flex items-center gap-3">
+          <span class="flex h-10 w-10 items-center justify-center rounded-full bg-accent-500 text-lg font-bold text-white">٢</span>
+          <div>
+            <p class="text-sm font-semibold uppercase tracking-wide text-accent-600">الدورة الثانية</p>
+            <h2 class="font-display text-3xl text-gray-900">الدروس اللغوية - المستوى المتقدم</h2>
+          </div>
+        </div>
         <p class="max-w-3xl text-base leading-7 text-gray-600">
-          يتم إعداد المحتوى حالياً: حوارات أدبية، تحرير نصوص، وتمارين بلاغية متقدمة مع تعقب للوقت والدرجات.
+          أساليب متقدمة في النحو والبلاغة: التعجب، المدح والذم، النداء، والاستفهام. كل درس مع تمارين تطبيقية واختبارات شاملة.
         </p>
       </header>
-      {cycle2.length > 0 ? (
-        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {cycle2.map((lesson) => (
-            <LessonCard lesson={lesson} />
-          ))}
-        </div>
-      ) : (
-        <div class="glass-panel flex flex-col items-center gap-3 px-6 py-10 text-center text-gray-600">
-          <span class="text-3xl">✨</span>
-          <p>سيتم إطلاق دروس الدورة الثانية قريبًا مع تحديات ومسارات مراجعة مخصّصة.</p>
-        </div>
-      )}
+      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {cycle2.map((lesson) => (
+          <LessonCard lesson={lesson} />
+        ))}
+      </div>
     </section>
   </main>
 </MainLayout>

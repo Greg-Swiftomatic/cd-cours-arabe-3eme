@@ -1,0 +1,15 @@
+{
+  "lesson": {
+    "cycle": "cycle2",
+    "slug": "10-uslub-istifham",
+    "order": 10,
+    "title_ar": "أسلوب الاستفهام",
+    "title_fr": "La forme interrogative",
+    "body_html_ar": "<h2 dir=\"rtl\">أسلوب الاستفهام</h2><p dir=\"rtl\">أسلوب الاستفهام هو طلب العلم بشيء لم يكن معلومًا من قبل باستخدام أدوات الاستفهام.</p><p dir=\"rtl\">سيتم إضافة المحتوى التفصيلي قريبًا.</p>",
+    "body_html_fr": "<h2>La forme interrogative</h2><p>Demande d'information sur quelque chose d'inconnu.</p>"
+  },
+  "quiz": {
+    "questions": [],
+    "pass_threshold": 80
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "lesson": {
+    "cycle": "cycle2",
+    "slug": "09-uslub-ikhtisas",
+    "order": 9,
+    "title_ar": "أسلوب الاختصاص",
+    "title_fr": "La spécification",
+    "body_html_ar": "<h2 dir=\"rtl\">أسلوب الاختصاص</h2><p dir=\"rtl\">أسلوب الاختصاص هو تخصيص حكم عام بذكر اسم ظاهر بعد ضمير يدل على التعظيم أو الفخر.</p><p dir=\"rtl\">سيتم إضافة المحتوى التفصيلي قريبًا.</p>",
+    "body_html_fr": "<h2>La spécification</h2><p>Particularisation d'un jugement général.</p>"
+  },
+  "quiz": {
+    "questions": [],
+    "pass_threshold": 80
+  }
+}

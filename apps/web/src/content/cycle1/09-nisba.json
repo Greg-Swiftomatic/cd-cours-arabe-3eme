@@ -1,0 +1,15 @@
+{
+  "lesson": {
+    "cycle": "cycle1",
+    "slug": "09-nisba",
+    "order": 9,
+    "title_ar": "النسبة",
+    "title_fr": "L'attribution",
+    "body_html_ar": "<h2 dir=\"rtl\">النسبة</h2><p dir=\"rtl\">النسبة هي إلحاق ياء مشددة مكسور ما قبلها بآخر الاسم للدلالة على نسبة شيء إليه.</p><p dir=\"rtl\">سيتم إضافة المحتوى التفصيلي قريبًا.</p>",
+    "body_html_fr": "<h2>L'attribution</h2><p>Ajout d'un ya redoublé à la fin du nom pour indiquer l'attribution.</p>"
+  },
+  "quiz": {
+    "questions": [],
+    "pass_threshold": 80
+  }
+}

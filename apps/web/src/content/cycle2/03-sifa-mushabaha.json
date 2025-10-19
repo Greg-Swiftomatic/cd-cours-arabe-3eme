@@ -1,0 +1,15 @@
+{
+  "lesson": {
+    "cycle": "cycle2",
+    "slug": "03-sifa-mushabaha",
+    "order": 3,
+    "title_ar": "الصفة المشبهة",
+    "title_fr": "L'adjectif assimilé",
+    "body_html_ar": "<h2 dir=\"rtl\">الصفة المشبهة</h2><p dir=\"rtl\">الصفة المشبهة هي صفة مشتقة من الفعل اللازم للدلالة على معنى ثابت في الموصوف.</p><p dir=\"rtl\">سيتم إضافة المحتوى التفصيلي قريبًا.</p>",
+    "body_html_fr": "<h2>L'adjectif assimilé</h2><p>Adjectif dérivé d'un verbe intransitif indiquant une qualité permanente.</p>"
+  },
+  "quiz": {
+    "questions": [],
+    "pass_threshold": 80
+  }
+}

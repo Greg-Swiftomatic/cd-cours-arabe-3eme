@@ -1,0 +1,15 @@
+{
+  "lesson": {
+    "cycle": "cycle2",
+    "slug": "01-idafa",
+    "order": 1,
+    "title_ar": "الإضافة",
+    "title_fr": "L'annexion",
+    "body_html_ar": "<h2 dir=\"rtl\">الإضافة</h2><p dir=\"rtl\">الإضافة هي نسبة بين اسمين يسمى الأول مضافًا والثاني مضافًا إليه.</p><p dir=\"rtl\">سيتم إضافة المحتوى التفصيلي قريبًا.</p>",
+    "body_html_fr": "<h2>L'annexion</h2><p>Relation entre deux noms où le premier est annexé au second.</p>"
+  },
+  "quiz": {
+    "questions": [],
+    "pass_threshold": 80
+  }
+}
