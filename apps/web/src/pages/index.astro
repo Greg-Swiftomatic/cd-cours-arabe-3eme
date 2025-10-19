@@ -18,25 +18,25 @@ const stats = [
   description="منصة عائلية لتتبع تعلم العربية، مع دروس منظمة، تمارين تفاعلية، ولوحة تحكم للمراجعة."
 >
   <div class="relative isolate overflow-hidden px-6 pb-16 pt-10 sm:px-10 lg:px-16">
-    <div class="pointer-events-none absolute inset-0 -z-10 opacity-40">
-      <div class="absolute left-0 top-20 h-72 w-72 rounded-full bg-primary-500/40 blur-3xl"></div>
-      <div class="absolute bottom-0 right-0 h-80 w-80 rounded-full bg-emerald-500/20 blur-3xl"></div>
+    <div class="pointer-events-none absolute inset-0 -z-10 opacity-20">
+      <div class="absolute left-0 top-20 h-96 w-96 rounded-full bg-primary-200 blur-3xl"></div>
+      <div class="absolute bottom-0 right-0 h-96 w-96 rounded-full bg-accent-100 blur-3xl"></div>
     </div>
 
-    <nav class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 py-6 text-sm text-primary-100/80 sm:flex-row">
-      <a href="/" class="font-display text-2xl text-white">
+    <nav class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 py-6 text-sm text-gray-700 sm:flex-row">
+      <a href="/" class="font-display text-2xl font-bold text-primary-700">
         منصة العربية
       </a>
       <div class="flex items-center gap-3">
         <a
           href="/tableau-de-bord"
-          class="rounded-full border border-white/10 bg-white/10 px-5 py-2 text-sm font-semibold text-white transition hover:bg-white/20"
+          class="rounded-full border border-gray-300 bg-white px-5 py-2 text-sm font-semibold text-gray-700 shadow-sm transition hover:bg-gray-50"
         >
           لوحة المتابعة
         </a>
         <a
           href="#cycle1"
-          class="rounded-full border border-transparent bg-primary-500 px-5 py-2 text-sm font-semibold text-white transition hover:bg-primary-400"
+          class="rounded-full border border-transparent bg-primary-600 px-5 py-2 text-sm font-semibold text-white shadow-md transition hover:bg-primary-700"
         >
           ابدأ الدورة
         </a>
@@ -45,13 +45,13 @@ const stats = [
 
     <header class="mx-auto flex max-w-6xl flex-col items-center gap-8 text-center">
       <div class="space-y-4">
-        <span class="inline-flex items-center gap-2 rounded-full border border-primary-200/20 bg-primary-500/10 px-5 py-2 text-sm text-primary-100/80">
+        <span class="inline-flex items-center gap-2 rounded-full border border-primary-300 bg-primary-50 px-5 py-2 text-sm font-medium text-primary-700">
           برنامج متكامل لعائلة تهتم بالعربية
         </span>
-        <h1 class="font-display text-4xl leading-snug text-white sm:text-5xl" dir="rtl">
+        <h1 class="font-display text-4xl leading-snug text-gray-900 sm:text-5xl" dir="rtl">
           ارتقِ بلغة العائلة مع دروس متدرّجة، تمارين ممتعة، ولوحة نتائج متكاملة.
         </h1>
-        <p class="text-lg leading-8 text-primary-100/70" dir="rtl">
+        <p class="text-lg leading-8 text-gray-600" dir="rtl">
           خطط أسبوعية، محتوى بالعربية الفصحى، إشعارات ذكية، ومتابعة دقيقة لمستوى الأبناء في كل دورة. كل ما تحتاجه لبناء عادة تعلم ممتعة.
         </p>
       </div>
@@ -59,9 +59,9 @@ const stats = [
       <div class="grid w-full max-w-4xl gap-4 sm:grid-cols-3">
         {stats.map((stat) => (
           <div class="glass-panel flex flex-col items-center gap-2 px-6 py-5 text-center">
-            <span class="text-2xl">{stat.icon}</span>
-            <span class="text-3xl font-bold text-white">{stat.value}</span>
-            <p class="text-xs text-primary-100/60">{stat.label}</p>
+            <span class="text-3xl">{stat.icon}</span>
+            <span class="text-3xl font-bold text-gray-900">{stat.value}</span>
+            <p class="text-sm font-medium text-gray-600">{stat.label}</p>
           </div>
         ))}
       </div>
@@ -71,10 +71,10 @@ const stats = [
   <main class="mx-auto max-w-6xl space-y-14 px-6 pb-20 sm:px-10 lg:px-16">
     <section id="cycle1" class="space-y-6">
       <header class="flex flex-col gap-3" dir="rtl">
-        <p class="text-sm text-primary-100/70">الدورة الأولى</p>
+        <p class="text-sm font-semibold uppercase tracking-wide text-primary-600">الدورة الأولى</p>
         <div class="flex flex-col gap-3 text-right">
-          <h2 class="font-display text-4xl text-white">أساسيات راسخة ونطق سليم</h2>
-          <p class="max-w-3xl text-sm leading-7 text-primary-100/70">
+          <h2 class="font-display text-4xl text-gray-900">أساسيات راسخة ونطق سليم</h2>
+          <p class="max-w-3xl text-base leading-7 text-gray-600">
             وحدات مركّزة على الصرف والنحو مع أمثلة واضحة، بطاقات مراجعة، واختبارات فورية تقيس تقدّم المتعلّم وتمنحك صورة لحظية عن مستواه.
           </p>
         </div>
@@ -88,9 +88,9 @@ const stats = [
 
     <section class="space-y-6" id="cycle2">
       <header class="flex flex-col gap-3 text-right" dir="rtl">
-        <p class="text-sm text-primary-100/70">الدورة الثانية</p>
-        <h2 class="font-display text-4xl text-white">تعبير أعمق ومشاريع تطبيقية</h2>
-        <p class="max-w-3xl text-sm leading-7 text-primary-100/70">
+        <p class="text-sm font-semibold uppercase tracking-wide text-primary-600">الدورة الثانية</p>
+        <h2 class="font-display text-4xl text-gray-900">تعبير أعمق ومشاريع تطبيقية</h2>
+        <p class="max-w-3xl text-base leading-7 text-gray-600">
           يتم إعداد المحتوى حالياً: حوارات أدبية، تحرير نصوص، وتمارين بلاغية متقدمة مع تعقب للوقت والدرجات.
         </p>
       </header>
@@ -101,8 +101,8 @@ const stats = [
           ))}
         </div>
       ) : (
-        <div class="glass-panel flex flex-col items-center gap-3 px-6 py-10 text-center text-primary-100/70">
-          <span class="text-2xl">✨</span>
+        <div class="glass-panel flex flex-col items-center gap-3 px-6 py-10 text-center text-gray-600">
+          <span class="text-3xl">✨</span>
           <p>سيتم إطلاق دروس الدورة الثانية قريبًا مع تحديات ومسارات مراجعة مخصّصة.</p>
         </div>
       )}

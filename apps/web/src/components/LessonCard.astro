@@ -21,25 +21,25 @@ const cycleTitles: Record<string, string> = {
 };
 ---
 
-<article class="glass-panel group relative h-full overflow-hidden p-6 transition hover:-translate-y-1 hover:shadow-2xl">
-  <div class="absolute inset-0 bg-gradient-to-br from-primary-500/10 via-transparent to-primary-800/20 opacity-0 transition group-hover:opacity-100"></div>
+<article class="glass-panel group relative h-full overflow-hidden p-6 transition hover:-translate-y-1 hover:shadow-xl">
+  <div class="absolute inset-0 bg-gradient-to-br from-primary-100/50 via-transparent to-accent-50 opacity-0 transition group-hover:opacity-100"></div>
   <a
     href={`/cours/${lesson.cycle}/${lesson.slug}`}
-    class="relative z-10 flex h-full flex-col gap-4 no-underline text-slate-100"
+    class="relative z-10 flex h-full flex-col gap-4 no-underline text-gray-900"
   >
-    <div class="flex items-center justify-between text-sm text-primary-200">
-      <span class="flex items-center gap-2 rounded-full bg-primary-500/10 px-3 py-1 font-semibold">
+    <div class="flex items-center justify-between text-sm">
+      <span class="flex items-center gap-2 rounded-full bg-primary-100 px-3 py-1 font-semibold text-primary-700">
         <span>{orderLabel}</span>
-        <span class="text-xs text-primary-100/80">{cycleTitles[lesson.cycle] ?? lesson.cycle}</span>
+        <span class="text-xs text-primary-600">{cycleTitles[lesson.cycle] ?? lesson.cycle}</span>
       </span>
     </div>
-    <h3 class="font-display text-3xl leading-snug text-white" dir="rtl">
+    <h3 class="font-display text-3xl leading-snug text-gray-900" dir="rtl">
       {lesson.title_ar}
     </h3>
-    <p class="mt-auto text-sm text-primary-100/70">
+    <p class="mt-auto text-sm text-gray-600">
       عرض الدرس، التمارين، والاختبار التفاعلي.
     </p>
-    <span class="inline-flex items-center justify-center self-start rounded-full bg-primary-500 px-5 py-2 text-sm font-semibold text-white transition hover:bg-primary-400">
+    <span class="inline-flex items-center justify-center self-start rounded-full bg-primary-600 px-5 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-primary-700">
       الدخول إلى الدرس
     </span>
   </a>

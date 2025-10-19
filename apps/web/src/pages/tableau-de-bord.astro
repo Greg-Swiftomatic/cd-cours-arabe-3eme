@@ -73,43 +73,43 @@ const formatScore = (score: number) => toArabicDigits(score);
 
 <MainLayout title="لوحة المتابعة العائلية" description="راقب تقدم الأبناء في تعلم العربية، درجات الاختبارات، وأحدث الأنشطة.">
   <div class="relative isolate overflow-hidden px-6 pb-20 pt-12 sm:px-10 lg:px-16">
-    <div class="pointer-events-none absolute inset-0 -z-10 opacity-40">
-      <div class="absolute left-10 top-10 h-64 w-64 rounded-full bg-primary-500/25 blur-3xl"></div>
-      <div class="absolute bottom-0 right-0 h-72 w-72 rounded-full bg-emerald-500/20 blur-3xl"></div>
+    <div class="pointer-events-none absolute inset-0 -z-10 opacity-20">
+      <div class="absolute left-10 top-10 h-80 w-80 rounded-full bg-primary-200 blur-3xl"></div>
+      <div class="absolute bottom-0 right-0 h-80 w-80 rounded-full bg-accent-100 blur-3xl"></div>
     </div>
 
     <div class="mx-auto flex max-w-6xl flex-col gap-10 text-right" dir="rtl">
       <header class="flex flex-col gap-6">
         <div class="flex flex-wrap items-center justify-between gap-4">
           <div class="space-y-2">
-            <h1 class="font-display text-4xl text-white">لوحة المتابعة</h1>
-            <p class="text-sm leading-7 text-primary-100/70">
+            <h1 class="font-display text-4xl text-gray-900">لوحة المتابعة</h1>
+            <p class="text-base leading-7 text-gray-600">
               متابعة لحظية لمستوى الأبناء في كل دورة، مع تنبيهات بالدروس التي تحتاج إلى مراجعة وتحسين.
             </p>
           </div>
           <a
             href="/"
-            class="rounded-full border border-white/10 bg-white/10 px-5 py-2 text-sm text-white transition hover:bg-white/20"
+            class="rounded-full border border-gray-300 bg-white px-5 py-2 text-sm font-medium text-gray-700 shadow-sm transition hover:bg-gray-50"
           >
             ← العودة إلى الدروس
           </a>
         </div>
 
         {profile && (
-          <div class="glass-panel flex flex-wrap items-center justify-between gap-4 px-6 py-5 text-sm text-primary-100/80">
+          <div class="glass-panel flex flex-wrap items-center justify-between gap-4 px-6 py-5 text-sm text-gray-700">
             <div class="space-y-1">
-              <p>مرحبًا {profileName}</p>
-              <p class="text-xs text-primary-100/60">
+              <p class="font-medium">مرحبًا {profileName}</p>
+              <p class="text-xs text-gray-500">
                 الدور الحالي: {profileRoleLabel}
               </p>
             </div>
-            <button class="rounded-full border border-primary-200/30 bg-primary-500/20 px-5 py-2 text-xs text-white transition hover:bg-primary-500/30">
+            <button class="rounded-full border border-primary-300 bg-primary-50 px-5 py-2 text-xs font-medium text-primary-700 transition hover:bg-primary-100">
               تنزيل تقرير الأسبوع
             </button>
           </div>
         )}
         {!profile && (
-          <div class="glass-panel px-6 py-5 text-sm text-primary-100/70">
+          <div class="glass-panel px-6 py-5 text-sm text-gray-600">
             قم بتسجيل الدخول للاطلاع على البيانات التفصيلية الخاصة بعائلتك.
           </div>
         )}
@@ -118,17 +118,17 @@ const formatScore = (score: number) => toArabicDigits(score);
       <section class="grid gap-4 sm:grid-cols-3">
         {stats.map((stat) => (
           <div class="glass-panel flex flex-col items-center gap-2 px-6 py-6 text-center">
-            <span class="text-2xl">{stat.icon}</span>
-            <span class="text-3xl font-bold text-white">{stat.value}</span>
-            <p class="text-xs text-primary-100/60">{stat.label}</p>
+            <span class="text-3xl">{stat.icon}</span>
+            <span class="text-3xl font-bold text-gray-900">{stat.value}</span>
+            <p class="text-sm font-medium text-gray-600">{stat.label}</p>
           </div>
         ))}
       </section>
 
       <section class="glass-panel space-y-4 p-8">
         <header class="flex flex-col gap-2">
-          <h2 class="font-display text-2xl text-white">تقدم الدروس</h2>
-          <p class="text-xs text-primary-100/60">
+          <h2 class="font-display text-2xl text-gray-900">تقدم الدروس</h2>
+          <p class="text-sm text-gray-600">
             راقب الدروس المكتملة والمتبقية، وتابع آخر الدرجات المحققة في الاختبارات.
           </p>
         </header>
@@ -136,20 +136,20 @@ const formatScore = (score: number) => toArabicDigits(score);
         {hasData && (
           <ul class="space-y-4">
             {normalizedProgress.map((item) => (
-              <li class="flex flex-col gap-4 rounded-2xl border border-white/10 bg-white/5 px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
+              <li class="flex flex-col gap-4 rounded-2xl border border-gray-200 bg-white px-5 py-4 shadow-sm sm:flex-row sm:items-center sm:justify-between">
                 <div class="space-y-1 text-right">
-                  <p class="text-lg font-semibold text-white">
+                  <p class="text-lg font-semibold text-gray-900">
                     {item.lessonTitle}
                   </p>
-                  <p class="text-xs text-primary-100/60">
+                  <p class="text-xs text-gray-500">
                     آخر تحديث: {formatDate(item.updatedAt)}
                   </p>
                 </div>
-                <div class="flex flex-wrap items-center gap-3 text-xs font-semibold text-white">
-                  <span class="rounded-full bg-primary-500/20 px-4 py-2">
+                <div class="flex flex-wrap items-center gap-3 text-xs font-semibold">
+                  <span class="rounded-full bg-primary-100 px-4 py-2 text-primary-700">
                     المحاولات: {toArabicDigits(item.attempts)}
                   </span>
-                  <span class={`rounded-full px-4 py-2 ${scoreBadgeClass(item.score)}`}>
+                  <span class={`rounded-full px-4 py-2 ${item.score >= 80 ? 'bg-green-100 text-green-700' : 'bg-amber-100 text-amber-700'}`}>
                     الدرجة: {formatScore(item.score)}/١٠٠
                   </span>
                 </div>
@@ -159,7 +159,7 @@ const formatScore = (score: number) => toArabicDigits(score);
         )}
 
         {!hasData && (
-          <div class="rounded-2xl border border-dashed border-white/20 px-6 py-10 text-center text-sm text-primary-100/60">
+          <div class="rounded-2xl border border-dashed border-gray-300 bg-gray-50 px-6 py-10 text-center text-sm text-gray-600">
             لم تُسجل أي محاولات بعد. ابدأ من الدورة الأولى لإظهار التقدم هنا.
           </div>
         )}

@@ -9,13 +9,13 @@
 
   body {
     font-family: "Noto Naskh Arabic", "Inter", sans-serif;
-    background-color: #050714;
-    color: #f8fafc;
+    background-color: #fdfcf9;
+    color: #1f2937;
   }
 }
 
 @layer components {
   .glass-panel {
-    @apply rounded-3xl border border-white/10 bg-white/5 backdrop-blur-md shadow-xl shadow-primary-900/20;
+    @apply rounded-2xl border border-gray-200 bg-white shadow-lg shadow-primary-500/5;
   }
 }
