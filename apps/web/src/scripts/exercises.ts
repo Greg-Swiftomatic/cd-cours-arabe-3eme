@@ -1,187 +1,197 @@
-// Exercise interaction logic
-export function initializeExercises() {
-  const exerciseBlocks = document.querySelectorAll('.exercise-block');
+const ARABIC_DIGITS = ["٠", "١", "٢", "٣", "٤", "٥", "٦", "٧", "٨", "٩"] as const;
 
-  exerciseBlocks.forEach((block) => {
-    const exercises = block.querySelectorAll('.exercise-item');
-    const progressBar = block.querySelector('.progress-bar') as HTMLElement;
-    const progressText = block.querySelector('.progress-text') as HTMLElement;
+export const toArabicDigits = (value: number | string) =>
+  value
+    .toString()
+    .replace(/\d/g, (digit) => ARABIC_DIGITS[Number(digit)]);
 
-    let completedCount = 0;
-    const totalCount = exercises.length;
+type ExerciseElement = HTMLElement & {
+  dataset: DOMStringMap & { correct?: string };
+};
 
-    // Update progress
-    function updateProgress() {
-      const percentage = (completedCount / totalCount) * 100;
-      if (progressBar) progressBar.style.width = `${percentage}%`;
-      if (progressText) {
-        const arabicCompleted = toArabicNumerals(completedCount);
-        const arabicTotal = toArabicNumerals(totalCount);
-        progressText.textContent = `${arabicCompleted}/${arabicTotal}`;
-      }
-    }
+const CHECKED_ICON =
+  '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />';
+const ERROR_ICON =
+  '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856C19.403 19 20 18.403 20 17.694V6.306C20 5.597 19.403 5 18.694 5H5.306C4.597 5 4 5.597 4 6.306v11.388C4 18.403 4.597 19 5.306 19z" />';
 
-    updateProgress();
+function showFeedback(
+  exercise: HTMLElement,
+  { correct, message }: { correct: boolean; message: string },
+) {
+  const feedback = exercise.querySelector<HTMLElement>("[data-feedback]");
+  if (!feedback) return;
+  const icon = feedback.querySelector<SVGElement>(".feedback-icon");
+  const title = feedback.querySelector<HTMLElement>(".feedback-title");
+  const detail = feedback.querySelector<HTMLElement>(".feedback-message");
 
-    // Handle check answer buttons
-    exercises.forEach((exercise) => {
-      const checkBtn = exercise.querySelector('.check-answer-btn') as HTMLButtonElement;
-      const feedbackArea = exercise.querySelector('[data-feedback]') as HTMLElement;
+  feedback.classList.remove("hidden");
+  feedback.classList.toggle("bg-green-100", correct);
+  feedback.classList.toggle("text-green-800", correct);
+  feedback.classList.toggle("bg-rose-100", !correct);
+  feedback.classList.toggle("text-rose-800", !correct);
 
-      if (!checkBtn || !feedbackArea) return;
+  if (icon) {
+    icon.innerHTML = correct ? CHECKED_ICON : ERROR_ICON;
+    icon.classList.toggle("text-green-600", correct);
+    icon.classList.toggle("text-rose-600", !correct);
+  }
 
-      checkBtn.addEventListener('click', () => {
-        const exerciseType = getExerciseType(exercise);
-        let isCorrect = false;
+  if (title) {
+    title.textContent = correct ? "إجابة صحيحة" : "حاول مجددًا";
+  }
 
-        switch (exerciseType) {
-          case 'multiple-choice':
-            isCorrect = checkMultipleChoice(exercise);
-            break;
-          case 'fill-blank':
-            isCorrect = checkFillBlank(exercise);
-            break;
-          case 'matching':
-            isCorrect = checkMatching(exercise);
-            break;
-        }
-
-        showFeedback(exercise, isCorrect, checkBtn);
-
-        if (isCorrect && !exercise.classList.contains('completed')) {
-          exercise.classList.add('completed');
-          completedCount++;
-          updateProgress();
-
-          // Celebration animation
-          celebrateSuccess(exercise);
-        }
-
-        checkBtn.disabled = true;
-      });
-    });
-  });
+  if (detail) {
+    detail.textContent = message;
+  }
 }
 
-function getExerciseType(exercise: Element): string {
-  if (exercise.querySelector('input[type="radio"]')) return 'multiple-choice';
-  if (exercise.querySelector('input[type="text"]')) return 'fill-blank';
-  if (exercise.querySelector('select')) return 'matching';
-  return 'unknown';
+function markCompletion(exercise: HTMLElement, completed: boolean) {
+  exercise.classList.toggle("completed", completed);
+  exercise.classList.toggle("border-green-400", completed);
 }
 
-function checkMultipleChoice(exercise: Element): boolean {
-  const correctAnswer = exercise.getAttribute('data-correct');
-  const selected = exercise.querySelector('input[type="radio"]:checked') as HTMLInputElement;
-
+function evaluateMultipleChoice(exercise: ExerciseElement) {
+  const correctIndex = Number(exercise.dataset.correct ?? "-1");
+  const selected = exercise.querySelector<HTMLInputElement>(
+    "input[type='radio']:checked",
+  );
   if (!selected) {
-    alert('الرجاء اختيار إجابة');
-    return false;
+    return { valid: false, correct: false };
   }
 
-  return selected.value === correctAnswer;
+  const isCorrect = Number(selected.value) === correctIndex;
+  return { valid: true, correct: isCorrect };
 }
 
-function checkFillBlank(exercise: Element): boolean {
-  const correctAnswer = exercise.getAttribute('data-correct')?.trim().toLowerCase();
-  const input = exercise.querySelector('input[type="text"]') as HTMLInputElement;
-  const userAnswer = input.value.trim().toLowerCase();
+function evaluateFillBlank(exercise: ExerciseElement) {
+  const expected = exercise.dataset.correct?.trim() ?? "";
+  const input = exercise.querySelector<HTMLInputElement>("input[type='text']");
+  if (!input) return { valid: false, correct: false };
 
-  // Flexible matching - allow minor variations
-  return userAnswer === correctAnswer ||
-         userAnswer === correctAnswer?.replace(/[ًٌٍَُِّْ]/g, '') || // without tashkeel
-         levenshteinDistance(userAnswer, correctAnswer || '') <= 1; // allow 1 char difference
+  const value = input.value.trim();
+  if (!value) {
+    return { valid: false, correct: false };
+  }
+
+  const isCorrect = value === expected;
+  return { valid: true, correct: isCorrect };
 }
 
-function checkMatching(exercise: Element): boolean {
-  const selects = exercise.querySelectorAll('select');
-  let allCorrect = true;
+function evaluateMatching(exercise: HTMLElement) {
+  const selects = Array.from(
+    exercise.querySelectorAll<HTMLSelectElement>("select[data-correct]"),
+  );
+  if (selects.length === 0) {
+    return { valid: false, correct: false };
+  }
 
-  selects.forEach((select) => {
-    const correct = select.getAttribute('data-correct');
-    if (select.value !== correct) {
-      allCorrect = false;
-      select.classList.add('border-red-400');
-    } else {
-      select.classList.add('border-green-400');
+  let allSelected = true;
+  const allCorrect = selects.every((select) => {
+    const expected = select.dataset.correct ?? "";
+    const value = select.value;
+    if (!value) {
+      allSelected = false;
     }
+    return value === expected;
   });
 
-  return allCorrect;
+  return { valid: allSelected, correct: allCorrect };
 }
 
-function showFeedback(exercise: Element, isCorrect: boolean, checkBtn: HTMLButtonElement) {
-  const feedbackArea = exercise.querySelector('[data-feedback]') as HTMLElement;
-  const feedbackIcon = feedbackArea.querySelector('.feedback-icon') as SVGElement;
-  const feedbackTitle = feedbackArea.querySelector('.feedback-title') as HTMLElement;
-  const feedbackMessage = feedbackArea.querySelector('.feedback-message') as HTMLElement;
+function updateBlockProgress(block: HTMLElement) {
+  const exercises = block.querySelectorAll(".exercise-item");
+  const completed = block.querySelectorAll(".exercise-item.completed");
+  const percentage =
+    exercises.length > 0 ? (completed.length / exercises.length) * 100 : 0;
 
-  const correctFeedback = checkBtn.getAttribute('data-correct-feedback') || 'أحسنت!';
-  const incorrectFeedback = checkBtn.getAttribute('data-incorrect-feedback') || 'حاول مرة أخرى';
+  const progressBar = block.querySelector<HTMLElement>(".progress-bar");
+  const progressText = block.querySelector<HTMLElement>(".progress-text");
 
-  feedbackArea.classList.remove('hidden');
+  if (progressBar) {
+    progressBar.style.width = `${percentage}%`;
+  }
 
-  if (isCorrect) {
-    feedbackArea.className = 'feedback mt-4 p-4 rounded-lg bg-green-50 border border-green-200';
-    feedbackIcon.className = 'feedback-icon h-6 w-6 flex-shrink-0 mt-0.5 text-green-600';
-    feedbackIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>';
-    feedbackTitle.className = 'feedback-title font-semibold mb-1 text-green-900';
-    feedbackTitle.textContent = 'صحيح! ممتاز';
-    feedbackMessage.className = 'feedback-message text-sm text-green-800';
-    feedbackMessage.textContent = correctFeedback;
-  } else {
-    feedbackArea.className = 'feedback mt-4 p-4 rounded-lg bg-amber-50 border border-amber-200';
-    feedbackIcon.className = 'feedback-icon h-6 w-6 flex-shrink-0 mt-0.5 text-amber-600';
-    feedbackIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>';
-    feedbackTitle.className = 'feedback-title font-semibold mb-1 text-amber-900';
-    feedbackTitle.textContent = 'راجع إجابتك';
-    feedbackMessage.className = 'feedback-message text-sm text-amber-800';
-    feedbackMessage.textContent = incorrectFeedback;
+  if (progressText) {
+    progressText.textContent = `${toArabicDigits(completed.length)}/${toArabicDigits(
+      exercises.length,
+    )}`;
   }
 }
 
-function celebrateSuccess(exercise: Element) {
-  // Add confetti or celebration animation
-  exercise.classList.add('animate-pulse');
-  setTimeout(() => {
-    exercise.classList.remove('animate-pulse');
-  }, 600);
-}
+function setupExercise(exercise: HTMLElement) {
+  const button = exercise.querySelector<HTMLButtonElement>(".check-answer-btn");
+  if (!button) return;
 
-function toArabicNumerals(num: number): string {
-  const arabicNums = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
-  return num.toString().split('').map(d => arabicNums[parseInt(d)]).join('');
-}
+  if (button.dataset.bound === "true") return;
+  button.dataset.bound = "true";
 
-function levenshteinDistance(str1: string, str2: string): number {
-  const matrix: number[][] = [];
+  button.addEventListener("click", () => {
+    const feedbackMessageCorrect =
+      button.dataset.correctFeedback ?? "ممتاز! إجابة صحيحة.";
+    const feedbackMessageIncorrect =
+      button.dataset.incorrectFeedback ?? "حاول مرة أخرى بعد مراجعة الدرس.";
 
-  for (let i = 0; i <= str2.length; i++) {
-    matrix[i] = [i];
-  }
+    let result = { valid: true, correct: false };
 
-  for (let j = 0; j <= str1.length; j++) {
-    matrix[0][j] = j;
-  }
-
-  for (let i = 1; i <= str2.length; i++) {
-    for (let j = 1; j <= str1.length; j++) {
-      if (str2.charAt(i - 1) === str1.charAt(j - 1)) {
-        matrix[i][j] = matrix[i - 1][j - 1];
+    if (exercise.dataset.correct !== undefined) {
+      const input = exercise.querySelector<HTMLInputElement>("input[type='text']");
+      if (input) {
+        result = evaluateFillBlank(exercise as ExerciseElement);
       } else {
-        matrix[i][j] = Math.min(
-          matrix[i - 1][j - 1] + 1,
-          matrix[i][j - 1] + 1,
-          matrix[i - 1][j] + 1
-        );
+        result = evaluateMultipleChoice(exercise as ExerciseElement);
       }
+    } else if (exercise.querySelector("select[data-correct]")) {
+      result = evaluateMatching(exercise);
+    } else {
+      result = { valid: false, correct: false };
     }
-  }
 
-  return matrix[str2.length][str1.length];
+    if (!result.valid) {
+      showFeedback(exercise, {
+        correct: false,
+        message: "أكمل الإجابة قبل التحقق.",
+      });
+      return;
+    }
+
+    showFeedback(exercise, {
+      correct: result.correct,
+      message: result.correct ? feedbackMessageCorrect : feedbackMessageIncorrect,
+    });
+
+    markCompletion(exercise, result.correct);
+
+    const block = exercise.closest<HTMLElement>(".exercise-block");
+    if (block) {
+      updateBlockProgress(block);
+    }
+  });
 }
 
-// Initialize when DOM is ready
-if (typeof window !== 'undefined') {
-  document.addEventListener('DOMContentLoaded', initializeExercises);
+function setupBlocks() {
+  const blocks = document.querySelectorAll<HTMLElement>(".exercise-block");
+  blocks.forEach((block) => {
+    updateBlockProgress(block);
+    block
+      .querySelectorAll<HTMLElement>(".exercise-item")
+      .forEach((exercise) => setupExercise(exercise));
+  });
+}
+
+export function initializeExercises() {
+  if (typeof window === "undefined") return;
+  if ((window as typeof window & { __exercisesInit?: boolean }).__exercisesInit) {
+    return;
+  }
+
+  const run = () => {
+    setupBlocks();
+    (window as typeof window & { __exercisesInit?: boolean }).__exercisesInit = true;
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", run, { once: true });
+  } else {
+    run();
+  }
 }
