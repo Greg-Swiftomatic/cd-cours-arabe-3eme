@@ -1,0 +1,126 @@
+---
+type ProgressItem = {
+  lessonSlug: string;
+  title_fr?: string;
+  score: number | null;
+  attempts: number;
+  updatedAt?: string;
+};
+
+interface ProfilePayload {
+  email: string;
+  name?: string;
+  role?: string;
+  progress: ProgressItem[];
+}
+
+async function loadProfile(requestUrl: string): Promise<ProfilePayload | null> {
+  try {
+    const apiUrl = new URL("/api/me", requestUrl);
+    const response = await fetch(apiUrl.toString());
+    if (!response.ok) {
+      return null;
+    }
+    return (await response.json()) as ProfilePayload;
+  } catch (error) {
+    console.warn("Impossible de récupérer le profil", error);
+    return null;
+  }
+}
+
+const profile = await loadProfile(Astro.request.url);
+const progress = profile?.progress ?? [];
+const hasData = progress.length > 0;
+---
+
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tableau de bord — Suivi des apprenants</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Noto+Naskh+Arabic:wght@400;600&display=swap"
+    />
+  </head>
+  <body class="min-h-screen bg-slate-50 text-slate-800">
+    <main class="mx-auto max-w-5xl px-6 py-10 space-y-8">
+      <header class="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+        <div>
+          <h1 class="text-3xl font-bold text-primary-700">Tableau de bord</h1>
+          <p class="text-sm text-slate-600">
+            Surveillez les leçons suivies et les scores obtenus.
+          </p>
+        </div>
+        <a
+          href="/"
+          class="text-sm font-semibold text-primary-600 hover:underline"
+        >
+          ← Retour à l’accueil
+        </a>
+      </header>
+
+      <section class="rounded-3xl bg-white p-6 shadow-sm">
+        {profile ? (
+          <div class="space-y-1">
+            <p class="text-sm text-slate-500">
+              Connecté en tant que {profile.name ?? profile.email}
+            </p>
+            <p class="font-medium text-slate-700">
+              Rôle : {profile.role ?? "parent"}
+            </p>
+          </div>
+        ) : (
+          <p class="text-sm text-slate-600">
+            Connectez-vous pour consulter les statistiques détaillées.
+          </p>
+        )}
+      </section>
+
+      <section class="rounded-3xl bg-white p-6 shadow-sm">
+        <h2 class="text-xl font-semibold text-primary-700">
+          Progression des leçons
+        </h2>
+        {hasData ? (
+          <ul class="mt-4 space-y-4">
+            {progress.map((item) => (
+              <li class="flex flex-col gap-2 rounded-2xl border border-slate-200 p-4 md:flex-row md:items-center md:justify-between">
+                <div>
+                  <p class="font-medium text-slate-700">
+                    {item.title_fr ?? item.lessonSlug}
+                  </p>
+                  <p class="text-xs text-slate-500">
+                    Dernière mise à jour :{" "}
+                    {item.updatedAt
+                      ? new Date(item.updatedAt).toLocaleString("fr-FR")
+                      : "—"}
+                  </p>
+                </div>
+                <div class="flex items-center gap-3">
+                  <span class="text-sm text-slate-600">
+                    Tentatives : {item.attempts}
+                  </span>
+                  <span
+                    class={`inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold ${
+                      item.score && item.score >= 80
+                        ? "bg-emerald-100 text-emerald-700"
+                        : "bg-amber-100 text-amber-700"
+                    }`}
+                  >
+                    Score : {item.score ?? 0}/100
+                  </span>
+                </div>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p class="mt-4 text-sm text-slate-600">
+            Aucune tentative enregistrée pour le moment. Lancez un quiz pour
+            voir les résultats ici.
+          </p>
+        )}
+      </section>
+    </main>
+  </body>
+</html>

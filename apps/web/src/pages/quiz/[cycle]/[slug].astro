@@ -1,0 +1,48 @@
+---
+import QuizRunner from "@components/QuizRunner.astro";
+import { getLesson, getQuiz } from "@lib/content";
+
+const cycle = Astro.params.cycle ?? "";
+const slug = Astro.params.slug ?? "";
+
+const record = getLesson(cycle, slug);
+const quiz = getQuiz(cycle, slug);
+
+if (!record) {
+  return Astro.response({
+    status: 404,
+    body: `Quiz introuvable pour ${cycle}/${slug}`,
+  });
+}
+
+const lesson = record.lesson;
+---
+
+<!DOCTYPE html>
+<html lang="fr" class="h-full">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Quiz – {lesson.title_fr ?? lesson.title_ar}</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Noto+Naskh+Arabic:wght@400;600&display=swap"
+    />
+  </head>
+  <body class="min-h-full bg-slate-100 px-4 py-10">
+    <main class="mx-auto max-w-3xl space-y-6">
+      <a href={`/cours/${lesson.cycle}/${lesson.slug}`} class="text-sm text-primary-600 hover:underline"
+        >&larr; Retour à la leçon</a
+      >
+      <header class="rounded-3xl bg-white p-6 shadow-sm">
+        <h1 class="font-display text-3xl text-primary-800" dir="rtl">
+          {lesson.title_ar}
+        </h1>
+        {lesson.title_fr && (
+          <p class="mt-2 text-slate-600">{lesson.title_fr}</p>
+        )}
+      </header>
+      <QuizRunner lesson={lesson} quiz={quiz} />
+    </main>
+  </body>
+</html>

@@ -1,0 +1,15 @@
+{
+  "lesson": {
+    "cycle": "cycle2",
+    "slug": "preview",
+    "order": 1,
+    "title_ar": "وحدة تمهيدية",
+    "title_fr": "Module d’introduction",
+    "body_html_ar": "<p dir=\"rtl\">المحتوى قيد الإعداد.</p>",
+    "body_html_fr": "<p>Contenu en préparation.</p>"
+  },
+  "quiz": {
+    "questions": [],
+    "pass_threshold": 0
+  }
+}

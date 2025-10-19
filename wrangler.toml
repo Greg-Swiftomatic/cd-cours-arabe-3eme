@@ -1,4 +1,11 @@
+name = "arabic-course"
+main = "apps/web/functions/[[path]].ts"
+compatibility_date = "2024-10-01"
+
 [[d1_databases]]
 binding = "DB"
 database_name = "cours_arabe_3eme"
 database_id = "cf44927c-8105-43d8-8701-3fb9413ceab1"
+
+[vars]
+APP_NAME = "Arabic Course"

@@ -1,0 +1,87 @@
+---
+import LessonCard from "@components/LessonCard.astro";
+import { getLessonsByCycle } from "@lib/content";
+
+const cycle1 = getLessonsByCycle("cycle1");
+const cycle2 = getLessonsByCycle("cycle2");
+---
+
+<!DOCTYPE html>
+<html lang="fr" class="h-full">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Parcours Arabe – Tableau des leçons</title>
+    <link
+      rel="preconnect"
+      href="https://fonts.googleapis.com"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Noto+Naskh+Arabic:wght@400;600&display=swap"
+    />
+  </head>
+  <body class="min-h-full bg-slate-50 font-sans text-slate-800">
+    <header class="border-b border-slate-200 bg-white">
+      <div class="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
+        <div>
+          <p class="text-xs uppercase tracking-widest text-primary-500">
+            Programme familial
+          </p>
+          <h1 class="text-2xl font-bold text-primary-700">
+            Cours d’arabe – Troisième cycle
+          </h1>
+        </div>
+        <a
+          href="/tableau-de-bord"
+          class="rounded-full border border-primary-100 px-4 py-2 text-sm font-semibold text-primary-700 transition hover:border-primary-300 hover:bg-primary-50"
+        >
+          Tableau de bord
+        </a>
+      </div>
+    </header>
+
+    <main class="mx-auto max-w-5xl px-6 py-10">
+      <section class="grid gap-8 md:grid-cols-2">
+        <div class="space-y-4 rounded-3xl border border-primary-100 bg-white p-6 shadow-sm">
+          <header class="space-y-1">
+            <p class="text-sm font-medium text-primary-600">Cycle 1</p>
+            <h2 class="font-display text-3xl text-primary-800" dir="rtl">
+              الدورة الأولى
+            </h2>
+            <p class="text-sm text-slate-600">
+              Consolider les bases de la grammaire et enrichir le vocabulaire.
+            </p>
+          </header>
+          <div class="grid gap-4">
+            {cycle1.map((lesson) => (
+              <LessonCard lesson={lesson} />
+            ))}
+          </div>
+        </div>
+
+        <div class="space-y-4 rounded-3xl border border-primary-100 bg-white p-6 shadow-sm">
+          <header class="space-y-1">
+            <p class="text-sm font-medium text-primary-600">Cycle 2</p>
+            <h2 class="font-display text-3xl text-primary-800" dir="rtl">
+              الدورة الثانية
+            </h2>
+            <p class="text-sm text-slate-600">
+              Approfondissement et expression écrite. Contenu en cours de
+              préparation.
+            </p>
+          </header>
+          <div class="grid gap-4">
+            {cycle2.length > 0 ? (
+              cycle2.map((lesson) => <LessonCard lesson={lesson} />)
+            ) : (
+              <p class="rounded-2xl bg-slate-100 p-4 text-sm text-slate-600">
+                Les chapitres seront publiés prochainement.
+              </p>
+            )}
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,30 @@
+---
+import type { LessonDetail } from "@lib/content";
+
+interface Props {
+  lesson: LessonDetail;
+}
+
+const { lesson } = Astro.props as Props;
+---
+
+<article class="group rounded-xl border border-primary-100 bg-white p-4 shadow-sm transition hover:shadow-lg">
+  <a
+    href={`/cours/${lesson.cycle}/${lesson.slug}`}
+    class="flex h-full flex-col gap-3 no-underline"
+  >
+    <div class="flex items-center justify-between text-sm text-primary-600">
+      <span class="font-semibold">#{lesson.order}</span>
+      <span>{lesson.title_fr ?? "Leçon"}</span>
+    </div>
+    <h3 class="rtl:text-right font-display text-2xl text-primary-800" dir="rtl">
+      {lesson.title_ar}
+    </h3>
+    {lesson.title_fr && (
+      <p class="text-sm text-slate-600">{lesson.title_fr}</p>
+    )}
+    <span class="mt-auto inline-flex items-center gap-2 text-sm text-primary-700">
+      Voir la leçon →
+    </span>
+  </a>
+</article>

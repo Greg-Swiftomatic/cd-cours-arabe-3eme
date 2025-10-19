@@ -1,0 +1,146 @@
+---
+import type { LessonDetail, QuizConfig } from "@lib/content";
+
+interface Props {
+  lesson: LessonDetail;
+  quiz: QuizConfig | null;
+}
+
+const { lesson, quiz } = Astro.props as Props;
+const hasQuestions = quiz && quiz.questions.length > 0;
+---
+
+<section class="rounded-2xl bg-white p-6 shadow-md">
+  <h2 class="text-xl font-semibold text-primary-700">Quiz</h2>
+  {hasQuestions ? (
+    <form
+      class="mt-4 space-y-6"
+      data-quiz-form
+      data-lesson={lesson.slug}
+      data-pass-threshold={quiz?.pass_threshold ?? 0}
+    >
+      {quiz?.questions.map((question) => (
+        <fieldset
+          class="space-y-3 rounded-xl border border-slate-200 p-4"
+          data-answer={question.answer_index}
+          data-question-id={question.id}
+        >
+          <legend
+            class="font-display text-lg text-primary-800 rtl:text-right"
+            dir="rtl"
+          >
+            {question.prompt_ar}
+          </legend>
+          <div class="space-y-2" dir="rtl">
+            {question.choices_ar?.map((choice, choiceIndex) => (
+              <label class="flex cursor-pointer items-start gap-2 rounded-lg border border-transparent px-3 py-2 transition hover:border-primary-300 hover:bg-primary-50">
+                <input
+                  type="radio"
+                  name={question.id}
+                  value={choiceIndex}
+                  required
+                  class="mt-1"
+                />
+                <span class="rtl:text-right">{choice}</span>
+              </label>
+            ))}
+          </div>
+          {question.explain_fr && (
+            <p class="hidden text-sm text-slate-600" data-explain>
+              {question.explain_fr}
+            </p>
+          )}
+        </fieldset>
+      ))}
+      <button
+        type="submit"
+        class="inline-flex items-center justify-center rounded-full bg-primary-600 px-5 py-2 text-white transition hover:bg-primary-700"
+      >
+        Envoyer mes réponses
+      </button>
+    </form>
+  ) : (
+    <p class="mt-4 text-sm text-slate-600">
+      Le quiz sera disponible prochainement.
+    </p>
+  )}
+  <div
+    class="mt-4 rounded-lg border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700"
+    data-quiz-result
+    hidden
+  ></div>
+</section>
+
+<script type="module">
+  const form = document.querySelector("[data-quiz-form]");
+  const resultBox = document.querySelector("[data-quiz-result]");
+
+  if (form && resultBox) {
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const fieldsets = Array.from(
+        form.querySelectorAll("fieldset[data-answer]"),
+      );
+
+      let correct = 0;
+      const detail = [];
+
+      fieldsets.forEach((fieldset) => {
+        const answerIndex = Number(fieldset.dataset.answer);
+        const questionId = fieldset.dataset.questionId ?? "";
+        const checked = fieldset.querySelector(
+          `input[name="${questionId}"]:checked`,
+        ) as HTMLInputElement | null;
+        const selectedIndex = checked ? Number(checked.value) : null;
+
+        const isCorrect = selectedIndex === answerIndex;
+        if (isCorrect) {
+          correct += 1;
+        }
+
+        detail.push({
+          questionId,
+          selectedIndex,
+          answerIndex,
+          correct: isCorrect,
+        });
+
+        const explanation = fieldset.querySelector("[data-explain]") as
+          | HTMLElement
+          | null;
+        if (explanation) {
+          explanation.hidden = false;
+        }
+        fieldset.classList.toggle("border-primary-500", isCorrect);
+        fieldset.classList.toggle("border-red-400", !isCorrect);
+      });
+
+      const score =
+        fieldsets.length > 0
+          ? Math.round((correct / fieldsets.length) * 100)
+          : 0;
+      const passThreshold = Number(form.dataset.passThreshold ?? 0);
+
+      resultBox.hidden = false;
+      resultBox.textContent =
+        score >= passThreshold
+          ? `Bravo ! Vous avez obtenu ${score}/100.`
+          : `Score obtenu : ${score}/100. Continuez vos révisions !`;
+
+      try {
+        await fetch("/api/attempts", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            lessonSlug: form.dataset.lesson,
+            score,
+            detail,
+            quizId: null,
+          }),
+        });
+      } catch (error) {
+        console.error("Impossible d'enregistrer la tentative", error);
+      }
+    });
+  }
+</script>

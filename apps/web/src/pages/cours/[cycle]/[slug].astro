@@ -1,0 +1,67 @@
+---
+import QuizRunner from "@components/QuizRunner.astro";
+import { getLesson, getQuiz } from "@lib/content";
+
+const cycle = Astro.params.cycle ?? "";
+const slug = Astro.params.slug ?? "";
+
+const record = getLesson(cycle, slug);
+const quiz = getQuiz(cycle, slug);
+
+if (!record) {
+  return Astro.response({
+    status: 404,
+    body: `Leçon introuvable pour ${cycle}/${slug}`,
+  });
+}
+
+const lesson = record.lesson;
+const htmlAttributes = { lang: "fr" };
+---
+
+<!DOCTYPE html>
+<html {...htmlAttributes} class="h-full">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{lesson.title_fr ?? lesson.title_ar}</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Noto+Naskh+Arabic:wght@400;600&display=swap"
+    />
+  </head>
+  <body class="min-h-full bg-slate-50 text-slate-800">
+    <main class="mx-auto max-w-4xl px-6 py-10 space-y-8">
+      <a href="/" class="text-sm text-primary-600 hover:underline"
+        >&larr; Retour aux cycles</a
+      >
+      <header class="rounded-3xl bg-white p-6 shadow-sm">
+        <p class="text-xs uppercase tracking-widest text-primary-500">
+          {lesson.cycle}
+        </p>
+        <h1 class="mt-2 font-display text-3xl text-primary-800" dir="rtl">
+          {lesson.title_ar}
+        </h1>
+        {lesson.title_fr && (
+          <p class="mt-2 text-lg text-slate-600">{lesson.title_fr}</p>
+        )}
+      </header>
+
+      <section class="rounded-3xl bg-white p-6 shadow-sm">
+        <article class="prose prose-slate max-w-none">
+          <div dir="rtl" set:html={lesson.body_html_ar}></div>
+          {lesson.body_html_fr && (
+            <div class="mt-6 border-t border-slate-200 pt-4">
+              <h2 class="text-lg font-semibold text-primary-700">
+                À retenir (FR)
+              </h2>
+              <div set:html={lesson.body_html_fr}></div>
+            </div>
+          )}
+        </article>
+      </section>
+
+      <QuizRunner lesson={lesson} quiz={quiz} />
+    </main>
+  </body>
+</html>
