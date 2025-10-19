@@ -1,0 +1,47 @@
+---
+import "../styles/tailwind.css";
+
+interface Props {
+  title: string;
+  description?: string;
+  lang?: string;
+  dir?: "rtl" | "ltr";
+  hideGradient?: boolean;
+}
+
+const {
+  title,
+  description,
+  lang = "ar",
+  dir = "rtl",
+  hideGradient = false,
+} = Astro.props as Props;
+---
+
+<!DOCTYPE html>
+<html lang={lang} dir={dir} class="min-h-full">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    {description && <meta name="description" content={description} />}
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Noto+Naskh+Arabic:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <slot name="head" />
+  </head>
+  <body
+    class={`min-h-screen overflow-x-hidden ${
+      hideGradient
+        ? "bg-slate-900 text-slate-100"
+        : "bg-[radial-gradient(circle_at_top,_#1f1740,_#050714_60%)] text-slate-100"
+    }`}
+  >
+    <div class="min-h-screen">
+      <slot />
+    </div>
+  </body>
+</html>

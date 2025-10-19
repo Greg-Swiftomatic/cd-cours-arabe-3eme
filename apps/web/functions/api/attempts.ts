@@ -11,7 +11,7 @@ export const onRequestGet: PagesFunction<Env> = async ({ request }) => {
   const url = new URL(request.url);
   const lesson = url.searchParams.get("lesson");
 
-  // TODO: lire les tentatives réelles depuis D1 avec Drizzle.
+  // TODO: قراءة المحاولات الحقيقية من قاعدة البيانات.
   const mockAttempts = [
     {
       id: 1,
@@ -32,7 +32,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request }) => {
 
   if (!body.lessonSlug) {
     return new Response(
-      JSON.stringify({ success: false, message: "lessonSlug requis" }),
+      JSON.stringify({ success: false, message: "معرّف الدرس مطلوب." }),
       {
         status: 400,
         headers: { "Content-Type": "application/json" },
@@ -48,7 +48,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request }) => {
     createdAt: new Date().toISOString(),
   };
 
-  // TODO: insérer payload dans D1.
+  // TODO: حفظ المحاولة داخل D1.
 
   return new Response(
     JSON.stringify({ success: true, attempt: payload }),

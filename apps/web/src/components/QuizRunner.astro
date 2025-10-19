@@ -10,43 +10,52 @@ const { lesson, quiz } = Astro.props as Props;
 const hasQuestions = quiz && quiz.questions.length > 0;
 ---
 
-<section class="rounded-2xl bg-white p-6 shadow-md">
-  <h2 class="text-xl font-semibold text-primary-700">Quiz</h2>
+<section class="glass-panel space-y-6 p-8">
+  <header class="flex flex-col gap-2">
+    <h2 class="font-display text-3xl text-white">اختبار الدرس</h2>
+    <p class="text-sm text-primary-100/70">
+      أجب عن الأسئلة التالية لتتأكد من فهمك لدرس {lesson.title_ar}.
+    </p>
+  </header>
+
   {hasQuestions ? (
     <form
-      class="mt-4 space-y-6"
+      class="space-y-6"
       data-quiz-form
       data-lesson={lesson.slug}
       data-pass-threshold={quiz?.pass_threshold ?? 0}
     >
-      {quiz?.questions.map((question) => (
+      {quiz?.questions.map((question, index) => (
         <fieldset
-          class="space-y-3 rounded-xl border border-slate-200 p-4"
+          class="space-y-4 rounded-2xl border border-white/10 bg-white/5 p-6 transition hover:border-primary-400/40"
           data-answer={question.answer_index}
           data-question-id={question.id}
         >
           <legend
-            class="font-display text-lg text-primary-800 rtl:text-right"
+            class="flex items-center justify-between font-display text-2xl text-white"
             dir="rtl"
           >
-            {question.prompt_ar}
+            <span>{question.prompt_ar}</span>
+            <span class="rounded-full bg-primary-500/10 px-3 py-1 text-xs text-primary-200">
+              سؤال {index + 1}
+            </span>
           </legend>
-          <div class="space-y-2" dir="rtl">
+          <div class="space-y-3" dir="rtl">
             {question.choices_ar?.map((choice, choiceIndex) => (
-              <label class="flex cursor-pointer items-start gap-2 rounded-lg border border-transparent px-3 py-2 transition hover:border-primary-300 hover:bg-primary-50">
+              <label class="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-right text-sm leading-7 text-slate-100 transition hover:border-primary-400 hover:bg-primary-500/10">
                 <input
                   type="radio"
                   name={question.id}
                   value={choiceIndex}
                   required
-                  class="mt-1"
+                  class="h-4 w-4 border-primary-400 text-primary-500 focus:ring-primary-400"
                 />
-                <span class="rtl:text-right">{choice}</span>
+                <span class="flex-1">{choice}</span>
               </label>
             ))}
           </div>
           {question.explain_fr && (
-            <p class="hidden text-sm text-slate-600" data-explain>
+            <p class="hidden rounded-xl bg-white/5 px-4 py-3 text-sm text-emerald-200" data-explain>
               {question.explain_fr}
             </p>
           )}
@@ -54,20 +63,20 @@ const hasQuestions = quiz && quiz.questions.length > 0;
       ))}
       <button
         type="submit"
-        class="inline-flex items-center justify-center rounded-full bg-primary-600 px-5 py-2 text-white transition hover:bg-primary-700"
+        class="relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full bg-gradient-to-l from-primary-500 to-primary-400 px-10 py-3 text-lg font-semibold text-white shadow-lg shadow-primary-900/30 transition hover:scale-[1.01]"
       >
-        Envoyer mes réponses
+        إرسال الإجابات
       </button>
     </form>
   ) : (
-    <p class="mt-4 text-sm text-slate-600">
-      Le quiz sera disponible prochainement.
+    <p class="text-sm text-primary-100/70">
+      الاختبار قيد التحضير. عد لاحقًا للاطلاع على التحديات الجديدة.
     </p>
   )}
+
   <div
-    class="mt-4 rounded-lg border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700"
+    class="hidden rounded-2xl border border-white/10 bg-white/5 p-6 text-sm text-primary-100/80"
     data-quiz-result
-    hidden
   ></div>
 </section>
 
@@ -90,13 +99,11 @@ const hasQuestions = quiz && quiz.questions.length > 0;
         const questionId = fieldset.dataset.questionId ?? "";
         const checked = fieldset.querySelector(
           `input[name="${questionId}"]:checked`,
-        ) as HTMLInputElement | null;
+        );
         const selectedIndex = checked ? Number(checked.value) : null;
 
         const isCorrect = selectedIndex === answerIndex;
-        if (isCorrect) {
-          correct += 1;
-        }
+        if (isCorrect) correct += 1;
 
         detail.push({
           questionId,
@@ -105,14 +112,14 @@ const hasQuestions = quiz && quiz.questions.length > 0;
           correct: isCorrect,
         });
 
-        const explanation = fieldset.querySelector("[data-explain]") as
-          | HTMLElement
-          | null;
-        if (explanation) {
+        const explanation = fieldset.querySelector("[data-explain]");
+        if (explanation instanceof HTMLElement) {
           explanation.hidden = false;
+          explanation.classList.toggle("bg-rose-500/10", !isCorrect);
         }
-        fieldset.classList.toggle("border-primary-500", isCorrect);
-        fieldset.classList.toggle("border-red-400", !isCorrect);
+
+        fieldset.classList.toggle("border-emerald-400/60", isCorrect);
+        fieldset.classList.toggle("border-rose-400/60", !isCorrect);
       });
 
       const score =
@@ -121,11 +128,17 @@ const hasQuestions = quiz && quiz.questions.length > 0;
           : 0;
       const passThreshold = Number(form.dataset.passThreshold ?? 0);
 
-      resultBox.hidden = false;
-      resultBox.textContent =
-        score >= passThreshold
-          ? `Bravo ! Vous avez obtenu ${score}/100.`
-          : `Score obtenu : ${score}/100. Continuez vos révisions !`;
+      resultBox.classList.remove("hidden");
+      resultBox.innerHTML = `
+        <div class="flex flex-col gap-2 text-right">
+          <span class="text-lg font-semibold text-white">نتيجتك: ${score}/100</span>
+          <span>${
+            score >= passThreshold
+              ? "ممتاز! لقد تجاوزت الحد المطلوب لهذا الدرس."
+              : "تابع التدريب لتحصل على نتيجة أعلى وتفهمًا أعمق."
+          }</span>
+        </div>
+      `;
 
       try {
         await fetch("/api/attempts", {
@@ -139,7 +152,7 @@ const hasQuestions = quiz && quiz.questions.length > 0;
           }),
         });
       } catch (error) {
-        console.error("Impossible d'enregistrer la tentative", error);
+        console.error("تعذر حفظ المحاولة", error);
       }
     });
   }

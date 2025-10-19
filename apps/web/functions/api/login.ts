@@ -9,21 +9,17 @@ export const onRequestPost: PagesFunction<Env> = async ({ request }) => {
   const email = body.email?.trim();
 
   if (!email) {
-    return new Response(
-      JSON.stringify({ success: false, message: "Email requis" }),
-      {
-        status: 400,
-        headers: { "Content-Type": "application/json" },
-      },
-    );
+    return new Response(JSON.stringify({ success: false, message: "البريد الإلكتروني مطلوب." }), {
+      status: 400,
+      headers: { "Content-Type": "application/json" },
+    });
   }
 
-  // TODO: générer et envoyer un code à usage unique via email ou autre canal.
+  // TODO: توليد رمز دخول وإرساله عبر البريد أو أي وسيلة مفضلة.
   return new Response(
     JSON.stringify({
       success: true,
-      message:
-        "Code de connexion envoyé (simulation). Intégrer un service mail avant la mise en production.",
+      message: "تم إرسال رمز الدخول (محاكاة). أضف خدمة البريد قبل الإطلاق.",
     }),
     {
       headers: { "Content-Type": "application/json" },

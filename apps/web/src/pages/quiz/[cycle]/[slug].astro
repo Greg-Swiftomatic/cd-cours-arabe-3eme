@@ -1,4 +1,5 @@
 ---
+import MainLayout from "@layouts/MainLayout.astro";
 import QuizRunner from "@components/QuizRunner.astro";
 import { getLesson, getQuiz } from "@lib/content";
 
@@ -18,31 +19,27 @@ if (!record) {
 const lesson = record.lesson;
 ---
 
-<!DOCTYPE html>
-<html lang="fr" class="h-full">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Quiz – {lesson.title_fr ?? lesson.title_ar}</title>
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Noto+Naskh+Arabic:wght@400;600&display=swap"
-    />
-  </head>
-  <body class="min-h-full bg-slate-100 px-4 py-10">
-    <main class="mx-auto max-w-3xl space-y-6">
-      <a href={`/cours/${lesson.cycle}/${lesson.slug}`} class="text-sm text-primary-600 hover:underline"
-        >&larr; Retour à la leçon</a
+<MainLayout title={`اختبار: ${lesson.title_ar}`}>
+  <div class="relative isolate overflow-hidden px-6 pb-16 pt-12 sm:px-10 lg:px-16">
+    <div class="pointer-events-none absolute inset-0 -z-10 opacity-40">
+      <div class="absolute left-0 top-10 h-56 w-56 rounded-full bg-primary-500/30 blur-3xl"></div>
+      <div class="absolute bottom-0 right-0 h-72 w-72 rounded-full bg-emerald-500/25 blur-3xl"></div>
+    </div>
+
+    <main class="mx-auto flex max-w-4xl flex-col gap-8 text-right" dir="rtl">
+      <a
+        href={`/cours/${lesson.cycle}/${lesson.slug}`}
+        class="self-start rounded-full border border-white/10 bg-white/10 px-5 py-2 text-sm text-white transition hover:bg-white/20"
       >
-      <header class="rounded-3xl bg-white p-6 shadow-sm">
-        <h1 class="font-display text-3xl text-primary-800" dir="rtl">
-          {lesson.title_ar}
-        </h1>
-        {lesson.title_fr && (
-          <p class="mt-2 text-slate-600">{lesson.title_fr}</p>
-        )}
+        ← الرجوع إلى الدرس
+      </a>
+      <header class="space-y-3">
+        <h1 class="font-display text-4xl text-white">اختبار: {lesson.title_ar}</h1>
+        <p class="text-sm leading-7 text-primary-100/70">
+          أجب عن الأسئلة في الوقت الذي يناسبك. بعد الانتهاء ستحصل على تقييم فوري ويُسجَّل في لوحة المتابعة.
+        </p>
       </header>
       <QuizRunner lesson={lesson} quiz={quiz} />
     </main>
-  </body>
-</html>
+  </div>
+</MainLayout>

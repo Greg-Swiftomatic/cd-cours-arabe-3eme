@@ -1,12 +1,12 @@
 import type { PagesFunction } from "@cloudflare/workers-types";
 
 export const onRequestPost: PagesFunction<Env> = async () => {
-  // TODO: parcourir le contenu JSON et l'insérer dans D1.
+  // TODO: استيراد محتوى JSON إلى قاعدة البيانات.
   return new Response(
     JSON.stringify({
       success: true,
       imported: 0,
-      note: "Initialisation de la base à implémenter.",
+      note: "سيتم تفعيل استيراد المحتوى قريبًا.",
     }),
     { headers: { "Content-Type": "application/json" } },
   );

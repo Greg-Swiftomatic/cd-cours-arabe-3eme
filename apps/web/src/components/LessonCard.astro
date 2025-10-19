@@ -6,25 +6,41 @@ interface Props {
 }
 
 const { lesson } = Astro.props as Props;
+
+const arabicDigits = ["٠", "١", "٢", "٣", "٤", "٥", "٦", "٧", "٨", "٩"];
+const orderLabel = `${lesson.order}`
+  .split("")
+  .map((char) =>
+    /\d/.test(char) ? arabicDigits[Number(char)] : char,
+  )
+  .join("");
+
+const cycleTitles: Record<string, string> = {
+  cycle1: "الدورة الأولى",
+  cycle2: "الدورة الثانية",
+};
 ---
 
-<article class="group rounded-xl border border-primary-100 bg-white p-4 shadow-sm transition hover:shadow-lg">
+<article class="glass-panel group relative h-full overflow-hidden p-6 transition hover:-translate-y-1 hover:shadow-2xl">
+  <div class="absolute inset-0 bg-gradient-to-br from-primary-500/10 via-transparent to-primary-800/20 opacity-0 transition group-hover:opacity-100"></div>
   <a
     href={`/cours/${lesson.cycle}/${lesson.slug}`}
-    class="flex h-full flex-col gap-3 no-underline"
+    class="relative z-10 flex h-full flex-col gap-4 no-underline text-slate-100"
   >
-    <div class="flex items-center justify-between text-sm text-primary-600">
-      <span class="font-semibold">#{lesson.order}</span>
-      <span>{lesson.title_fr ?? "Leçon"}</span>
+    <div class="flex items-center justify-between text-sm text-primary-200">
+      <span class="flex items-center gap-2 rounded-full bg-primary-500/10 px-3 py-1 font-semibold">
+        <span>{orderLabel}</span>
+        <span class="text-xs text-primary-100/80">{cycleTitles[lesson.cycle] ?? lesson.cycle}</span>
+      </span>
     </div>
-    <h3 class="rtl:text-right font-display text-2xl text-primary-800" dir="rtl">
+    <h3 class="font-display text-3xl leading-snug text-white" dir="rtl">
       {lesson.title_ar}
     </h3>
-    {lesson.title_fr && (
-      <p class="text-sm text-slate-600">{lesson.title_fr}</p>
-    )}
-    <span class="mt-auto inline-flex items-center gap-2 text-sm text-primary-700">
-      Voir la leçon →
+    <p class="mt-auto text-sm text-primary-100/70">
+      عرض الدرس، التمارين، والاختبار التفاعلي.
+    </p>
+    <span class="inline-flex items-center justify-center self-start rounded-full bg-primary-500 px-5 py-2 text-sm font-semibold text-white transition hover:bg-primary-400">
+      الدخول إلى الدرس
     </span>
   </a>
 </article>

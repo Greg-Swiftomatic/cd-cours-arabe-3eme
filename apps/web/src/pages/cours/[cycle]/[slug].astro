@@ -1,4 +1,5 @@
 ---
+import MainLayout from "@layouts/MainLayout.astro";
 import QuizRunner from "@components/QuizRunner.astro";
 import { getLesson, getQuiz } from "@lib/content";
 
@@ -16,52 +17,43 @@ if (!record) {
 }
 
 const lesson = record.lesson;
-const htmlAttributes = { lang: "fr" };
+const pageTitle = `درس: ${lesson.title_ar}`;
+const cycleTitles: Record<string, string> = {
+  cycle1: "الدورة الأولى",
+  cycle2: "الدورة الثانية",
+};
 ---
 
-<!DOCTYPE html>
-<html {...htmlAttributes} class="h-full">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{lesson.title_fr ?? lesson.title_ar}</title>
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Noto+Naskh+Arabic:wght@400;600&display=swap"
-    />
-  </head>
-  <body class="min-h-full bg-slate-50 text-slate-800">
-    <main class="mx-auto max-w-4xl px-6 py-10 space-y-8">
-      <a href="/" class="text-sm text-primary-600 hover:underline"
-        >&larr; Retour aux cycles</a
-      >
-      <header class="rounded-3xl bg-white p-6 shadow-sm">
-        <p class="text-xs uppercase tracking-widest text-primary-500">
-          {lesson.cycle}
-        </p>
-        <h1 class="mt-2 font-display text-3xl text-primary-800" dir="rtl">
-          {lesson.title_ar}
-        </h1>
-        {lesson.title_fr && (
-          <p class="mt-2 text-lg text-slate-600">{lesson.title_fr}</p>
-        )}
-      </header>
+<MainLayout title={pageTitle} description="درس تفاعلي مع محتوى وامتحان فوري.">
+  <div class="relative isolate overflow-hidden px-6 pb-20 pt-12 sm:px-10 lg:px-16">
+    <div class="pointer-events-none absolute inset-0 -z-10 opacity-40">
+      <div class="absolute left-10 top-16 h-52 w-52 rounded-full bg-primary-500/30 blur-3xl"></div>
+      <div class="absolute right-0 top-0 h-72 w-72 rounded-full bg-emerald-500/20 blur-3xl"></div>
+    </div>
 
-      <section class="rounded-3xl bg-white p-6 shadow-sm">
-        <article class="prose prose-slate max-w-none">
-          <div dir="rtl" set:html={lesson.body_html_ar}></div>
-          {lesson.body_html_fr && (
-            <div class="mt-6 border-t border-slate-200 pt-4">
-              <h2 class="text-lg font-semibold text-primary-700">
-                À retenir (FR)
-              </h2>
-              <div set:html={lesson.body_html_fr}></div>
-            </div>
-          )}
+    <div class="mx-auto flex max-w-5xl flex-col gap-10">
+      <div class="flex flex-col gap-6 text-right" dir="rtl">
+        <div class="flex flex-wrap items-center justify-between gap-4">
+          <a href="/" class="rounded-full border border-white/10 bg-white/10 px-5 py-2 text-sm text-white transition hover:bg-white/20">
+            ← العودة إلى المسار
+          </a>
+          <span class="rounded-full border border-primary-300/20 bg-primary-400/10 px-4 py-2 text-xs text-primary-100/80">
+            {cycleTitles[lesson.cycle] ?? lesson.cycle}
+          </span>
+        </div>
+        <h1 class="font-display text-4xl text-white">{lesson.title_ar}</h1>
+        <p class="max-w-2xl text-sm leading-7 text-primary-100/70">
+          ركّز على النقاط الأساسية، وتدرّب على الأمثلة، ثم حلّ الاختبار في نهاية الدرس لتتبع تقدّمك فورًا.
+        </p>
+      </div>
+
+      <section class="glass-panel p-8 text-right" dir="rtl">
+        <article class="prose max-w-none text-slate-100 prose-headings:font-display prose-headings:text-primary-200 prose-p:leading-7">
+          <div set:html={lesson.body_html_ar}></div>
         </article>
       </section>
 
       <QuizRunner lesson={lesson} quiz={quiz} />
-    </main>
-  </body>
-</html>
+    </div>
+  </div>
+</MainLayout>

@@ -1,87 +1,111 @@
 ---
+import MainLayout from "@layouts/MainLayout.astro";
 import LessonCard from "@components/LessonCard.astro";
 import { getLessonsByCycle } from "@lib/content";
 
 const cycle1 = getLessonsByCycle("cycle1");
 const cycle2 = getLessonsByCycle("cycle2");
+
+const stats = [
+  { label: "دروس تفاعلية", value: "١٠", icon: "📚" },
+  { label: "اختبارات جاهزة", value: "٢٥", icon: "📝" },
+  { label: "متابعون نشطون", value: "٣٢", icon: "👩‍👦" },
+];
 ---
 
-<!DOCTYPE html>
-<html lang="fr" class="h-full">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Parcours Arabe – Tableau des leçons</title>
-    <link
-      rel="preconnect"
-      href="https://fonts.googleapis.com"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Noto+Naskh+Arabic:wght@400;600&display=swap"
-    />
-  </head>
-  <body class="min-h-full bg-slate-50 font-sans text-slate-800">
-    <header class="border-b border-slate-200 bg-white">
-      <div class="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
-        <div>
-          <p class="text-xs uppercase tracking-widest text-primary-500">
-            Programme familial
-          </p>
-          <h1 class="text-2xl font-bold text-primary-700">
-            Cours d’arabe – Troisième cycle
-          </h1>
-        </div>
+<MainLayout
+  title="منصة العربية - المرحلة الثالثة"
+  description="منصة عائلية لتتبع تعلم العربية، مع دروس منظمة، تمارين تفاعلية، ولوحة تحكم للمراجعة."
+>
+  <div class="relative isolate overflow-hidden px-6 pb-16 pt-10 sm:px-10 lg:px-16">
+    <div class="pointer-events-none absolute inset-0 -z-10 opacity-40">
+      <div class="absolute left-0 top-20 h-72 w-72 rounded-full bg-primary-500/40 blur-3xl"></div>
+      <div class="absolute bottom-0 right-0 h-80 w-80 rounded-full bg-emerald-500/20 blur-3xl"></div>
+    </div>
+
+    <nav class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 py-6 text-sm text-primary-100/80 sm:flex-row">
+      <a href="/" class="font-display text-2xl text-white">
+        منصة العربية
+      </a>
+      <div class="flex items-center gap-3">
         <a
           href="/tableau-de-bord"
-          class="rounded-full border border-primary-100 px-4 py-2 text-sm font-semibold text-primary-700 transition hover:border-primary-300 hover:bg-primary-50"
+          class="rounded-full border border-white/10 bg-white/10 px-5 py-2 text-sm font-semibold text-white transition hover:bg-white/20"
         >
-          Tableau de bord
+          لوحة المتابعة
+        </a>
+        <a
+          href="#cycle1"
+          class="rounded-full border border-transparent bg-primary-500 px-5 py-2 text-sm font-semibold text-white transition hover:bg-primary-400"
+        >
+          ابدأ الدورة
         </a>
       </div>
+    </nav>
+
+    <header class="mx-auto flex max-w-6xl flex-col items-center gap-8 text-center">
+      <div class="space-y-4">
+        <span class="inline-flex items-center gap-2 rounded-full border border-primary-200/20 bg-primary-500/10 px-5 py-2 text-sm text-primary-100/80">
+          برنامج متكامل لعائلة تهتم بالعربية
+        </span>
+        <h1 class="font-display text-4xl leading-snug text-white sm:text-5xl" dir="rtl">
+          ارتقِ بلغة العائلة مع دروس متدرّجة، تمارين ممتعة، ولوحة نتائج متكاملة.
+        </h1>
+        <p class="text-lg leading-8 text-primary-100/70" dir="rtl">
+          خطط أسبوعية، محتوى بالعربية الفصحى، إشعارات ذكية، ومتابعة دقيقة لمستوى الأبناء في كل دورة. كل ما تحتاجه لبناء عادة تعلم ممتعة.
+        </p>
+      </div>
+
+      <div class="grid w-full max-w-4xl gap-4 sm:grid-cols-3">
+        {stats.map((stat) => (
+          <div class="glass-panel flex flex-col items-center gap-2 px-6 py-5 text-center">
+            <span class="text-2xl">{stat.icon}</span>
+            <span class="text-3xl font-bold text-white">{stat.value}</span>
+            <p class="text-xs text-primary-100/60">{stat.label}</p>
+          </div>
+        ))}
+      </div>
     </header>
+  </div>
 
-    <main class="mx-auto max-w-5xl px-6 py-10">
-      <section class="grid gap-8 md:grid-cols-2">
-        <div class="space-y-4 rounded-3xl border border-primary-100 bg-white p-6 shadow-sm">
-          <header class="space-y-1">
-            <p class="text-sm font-medium text-primary-600">Cycle 1</p>
-            <h2 class="font-display text-3xl text-primary-800" dir="rtl">
-              الدورة الأولى
-            </h2>
-            <p class="text-sm text-slate-600">
-              Consolider les bases de la grammaire et enrichir le vocabulaire.
-            </p>
-          </header>
-          <div class="grid gap-4">
-            {cycle1.map((lesson) => (
-              <LessonCard lesson={lesson} />
-            ))}
-          </div>
+  <main class="mx-auto max-w-6xl space-y-14 px-6 pb-20 sm:px-10 lg:px-16">
+    <section id="cycle1" class="space-y-6">
+      <header class="flex flex-col gap-3" dir="rtl">
+        <p class="text-sm text-primary-100/70">الدورة الأولى</p>
+        <div class="flex flex-col gap-3 text-right">
+          <h2 class="font-display text-4xl text-white">أساسيات راسخة ونطق سليم</h2>
+          <p class="max-w-3xl text-sm leading-7 text-primary-100/70">
+            وحدات مركّزة على الصرف والنحو مع أمثلة واضحة، بطاقات مراجعة، واختبارات فورية تقيس تقدّم المتعلّم وتمنحك صورة لحظية عن مستواه.
+          </p>
         </div>
+      </header>
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {cycle1.map((lesson) => (
+          <LessonCard lesson={lesson} />
+        ))}
+      </div>
+    </section>
 
-        <div class="space-y-4 rounded-3xl border border-primary-100 bg-white p-6 shadow-sm">
-          <header class="space-y-1">
-            <p class="text-sm font-medium text-primary-600">Cycle 2</p>
-            <h2 class="font-display text-3xl text-primary-800" dir="rtl">
-              الدورة الثانية
-            </h2>
-            <p class="text-sm text-slate-600">
-              Approfondissement et expression écrite. Contenu en cours de
-              préparation.
-            </p>
-          </header>
-          <div class="grid gap-4">
-            {cycle2.length > 0 ? (
-              cycle2.map((lesson) => <LessonCard lesson={lesson} />)
-            ) : (
-              <p class="rounded-2xl bg-slate-100 p-4 text-sm text-slate-600">
-                Les chapitres seront publiés prochainement.
-              </p>
-            )}
-          </div>
+    <section class="space-y-6" id="cycle2">
+      <header class="flex flex-col gap-3 text-right" dir="rtl">
+        <p class="text-sm text-primary-100/70">الدورة الثانية</p>
+        <h2 class="font-display text-4xl text-white">تعبير أعمق ومشاريع تطبيقية</h2>
+        <p class="max-w-3xl text-sm leading-7 text-primary-100/70">
+          يتم إعداد المحتوى حالياً: حوارات أدبية، تحرير نصوص، وتمارين بلاغية متقدمة مع تعقب للوقت والدرجات.
+        </p>
+      </header>
+      {cycle2.length > 0 ? (
+        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {cycle2.map((lesson) => (
+            <LessonCard lesson={lesson} />
+          ))}
         </div>
-      </section>
-    </main>
-  </body>
-</html>
+      ) : (
+        <div class="glass-panel flex flex-col items-center gap-3 px-6 py-10 text-center text-primary-100/70">
+          <span class="text-2xl">✨</span>
+          <p>سيتم إطلاق دروس الدورة الثانية قريبًا مع تحديات ومسارات مراجعة مخصّصة.</p>
+        </div>
+      )}
+    </section>
+  </main>
+</MainLayout>

@@ -4,9 +4,9 @@
     "slug": "01-aamal-al-masdar",
     "order": 1,
     "title_ar": "إعمال المصدر",
-    "title_fr": "L’action du masdar",
+    "title_fr": "إعمال المصدر",
     "body_html_ar": "<h2 dir=\"rtl\">إعمال المصدر</h2><p dir=\"rtl\">المصدر يعمل عمل فعله فيرفع الفاعل وينصب المفعول.</p>",
-    "body_html_fr": "<h2>L’action du masdar</h2><p>Le masdar exerce la même fonction que le verbe : il peut avoir un sujet et un complément.</p>"
+    "body_html_fr": "<h2>ملخص الدرس</h2><p>المصدر يعمل عمل فعله، فيرفع فاعلاً وينصب مفعولاً بحسب التركيب.</p>"
   },
   "quiz": {
     "questions": [
@@ -20,7 +20,7 @@
           "إنجازٍ الدرسِ واجبٌ"
         ],
         "answer_index": 0,
-        "explain_fr": "Lorsque le masdar est sujet et ajouté à son complément, il est au marfû‘ (ضمة) et le complément est majrûr."
+        "explain_fr": "عندما يكون المصدر مبتدأ مضافًا إلى مفعوله يبقى مرفوعًا بالضمة، ويأتي المضاف إليه مجرورًا."
       }
     ],
     "pass_threshold": 80

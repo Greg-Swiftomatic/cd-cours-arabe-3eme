@@ -4,9 +4,9 @@
     "slug": "preview",
     "order": 1,
     "title_ar": "وحدة تمهيدية",
-    "title_fr": "Module d’introduction",
+    "title_fr": "وحدة تمهيدية",
     "body_html_ar": "<p dir=\"rtl\">المحتوى قيد الإعداد.</p>",
-    "body_html_fr": "<p>Contenu en préparation.</p>"
+    "body_html_fr": "<p>يتم تجهيز محتوى الدورة الثانية، ترقّبوا الدروس قريبًا.</p>"
   },
   "quiz": {
     "questions": [],
