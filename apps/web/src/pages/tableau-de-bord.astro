@@ -1,78 +1,9 @@
 ---
 import MainLayout from "@layouts/MainLayout.astro";
-
-type ProgressItem = {
-  lessonSlug: string;
-  title_fr?: string;
-  score: number | null;
-  attempts: number;
-  updatedAt?: string;
-};
-
-interface ProfilePayload {
-  email: string;
-  name?: string;
-  role?: string;
-  progress: ProgressItem[];
-}
-
-async function loadProfile(requestUrl: string): Promise<ProfilePayload | null> {
-  try {
-    const apiUrl = new URL("/api/me", requestUrl);
-    const response = await fetch(apiUrl.toString());
-    if (!response.ok) {
-      return null;
-    }
-    return (await response.json()) as ProfilePayload;
-  } catch (error) {
-    console.warn("تعذر جلب الملف الشخصي", error);
-    return null;
-  }
-}
-
-const profile = await loadProfile(Astro.request.url);
-const rawProgress = profile?.progress ?? [];
-const ARABIC_DIGITS = ["٠", "١", "٢", "٣", "٤", "٥", "٦", "٧", "٨", "٩"] as const;
-
-const toArabicDigits = (input: number | string) =>
-  input
-    .toString()
-    .replace(/\d/g, (digit) => ARABIC_DIGITS[Number(digit)]);
-
-const normalizedProgress = rawProgress.map((item) => ({
-  lessonTitle: item.title_fr ?? item.lessonSlug,
-  attempts: item.attempts ?? 0,
-  score: item.score ?? 0,
-  updatedAt: item.updatedAt,
-}));
-
-const totalAttempts = normalizedProgress.reduce((sum, item) => sum + item.attempts, 0);
-const bestScore = normalizedProgress.reduce((max, item) => Math.max(max, item.score), 0);
-const completedLessons = normalizedProgress.filter((item) => item.score >= 80).length;
-
-const stats = [
-  { label: "عدد المحاولات", value: toArabicDigits(totalAttempts), icon: "📝" },
-  { label: "أعلى درجة", value: toArabicDigits(bestScore), icon: "🌟" },
-  { label: "دروس مكتملة", value: toArabicDigits(completedLessons), icon: "🏁" },
-];
-
-const hasData = normalizedProgress.length > 0;
-const profileName = profile?.name ?? profile?.email ?? "مستخدم";
-const profileRoleLabel = profile?.role === "guardian" ? "ولي أمر" : "مستخدم";
-
-const formatDate = (value?: string) => {
-  if (!value) return "—";
-  return new Date(value).toLocaleString("ar-EG");
-};
-
-const scoreBadgeClass = (score: number) =>
-  score >= 80 ? "bg-emerald-500/30" : "bg-amber-500/30";
-
-const formatScore = (score: number) => toArabicDigits(score);
 ---
 
 <MainLayout title="لوحة المتابعة العائلية" description="راقب تقدم الأبناء في تعلم العربية، درجات الاختبارات، وأحدث الأنشطة.">
-  <div class="relative isolate overflow-hidden px-6 pb-20 pt-12 sm:px-10 lg:px-16">
+  <div class="relative isolate overflow-hidden px-6 pb-20 pt-12 sm:px-10 lg:px-16" data-dashboard>
     <div class="pointer-events-none absolute inset-0 -z-10 opacity-20">
       <div class="absolute left-10 top-10 h-80 w-80 rounded-full bg-primary-200 blur-3xl"></div>
       <div class="absolute bottom-0 right-0 h-80 w-80 rounded-full bg-accent-100 blur-3xl"></div>
@@ -84,86 +15,186 @@ const formatScore = (score: number) => toArabicDigits(score);
           <div class="space-y-2">
             <h1 class="font-display text-4xl text-gray-900">لوحة المتابعة</h1>
             <p class="text-base leading-7 text-gray-600">
-              متابعة لحظية لمستوى الأبناء في كل دورة، مع تنبيهات بالدروس التي تحتاج إلى مراجعة وتحسين.
+              متابعة لحظية لتقدم العائلة في الدروس والاختبارات.
             </p>
           </div>
-          <a
-            href="/"
-            class="rounded-full border border-gray-300 bg-white px-5 py-2 text-sm font-medium text-gray-700 shadow-sm transition hover:bg-gray-50"
-          >
-            ← العودة إلى الدروس
-          </a>
-        </div>
-
-        {profile && (
-          <div class="glass-panel flex flex-wrap items-center justify-between gap-4 px-6 py-5 text-sm text-gray-700">
-            <div class="space-y-1">
-              <p class="font-medium">مرحبًا {profileName}</p>
-              <p class="text-xs text-gray-500">
-                الدور الحالي: {profileRoleLabel}
-              </p>
-            </div>
-            <button class="rounded-full border border-primary-300 bg-primary-50 px-5 py-2 text-xs font-medium text-primary-700 transition hover:bg-primary-100">
-              تنزيل تقرير الأسبوع
+          <div class="flex flex-wrap items-center gap-3">
+            <span class="hidden rounded-full border border-primary-200 bg-primary-50 px-4 py-2 text-xs font-medium text-primary-700" data-auth-identity></span>
+            <button
+              type="button"
+              data-auth-open
+              class="rounded-full border border-gray-300 bg-white px-5 py-2 text-sm font-semibold text-gray-700 shadow-sm transition hover:bg-gray-50"
+            >
+              تسجيل الدخول
             </button>
+            <a
+              href="/"
+              class="rounded-full border border-gray-300 bg-white px-5 py-2 text-sm font-medium text-gray-700 shadow-sm transition hover:bg-gray-50"
+            >
+              ← العودة إلى الدروس
+            </a>
           </div>
-        )}
-        {!profile && (
-          <div class="glass-panel px-6 py-5 text-sm text-gray-600">
-            قم بتسجيل الدخول للاطلاع على البيانات التفصيلية الخاصة بعائلتك.
-          </div>
-        )}
+        </div>
       </header>
 
-      <section class="grid gap-4 sm:grid-cols-3">
-        {stats.map((stat) => (
+      <div class="glass-panel px-6 py-5 text-sm text-gray-600" data-dashboard-anon>
+        قم بتسجيل الدخول للاطلاع على بيانات التقدم، ثم عد لهذه الصفحة لتنشيط لوحة المتابعة.
+      </div>
+
+      <div class="hidden space-y-10" data-dashboard-auth>
+        <section class="grid gap-4 sm:grid-cols-3">
           <div class="glass-panel flex flex-col items-center gap-2 px-6 py-6 text-center">
-            <span class="text-3xl">{stat.icon}</span>
-            <span class="text-3xl font-bold text-gray-900">{stat.value}</span>
-            <p class="text-sm font-medium text-gray-600">{stat.label}</p>
+            <span class="text-3xl">📝</span>
+            <span class="text-3xl font-bold text-gray-900" data-stat-attempts>٠</span>
+            <p class="text-sm font-medium text-gray-600">عدد المحاولات</p>
           </div>
-        ))}
-      </section>
+          <div class="glass-panel flex flex-col items-center gap-2 px-6 py-6 text-center">
+            <span class="text-3xl">🌟</span>
+            <span class="text-3xl font-bold text-gray-900" data-stat-best>٠</span>
+            <p class="text-sm font-medium text-gray-600">أعلى درجة</p>
+          </div>
+          <div class="glass-panel flex flex-col items-center gap-2 px-6 py-6 text-center">
+            <span class="text-3xl">🏁</span>
+            <span class="text-3xl font-bold text-gray-900" data-stat-complete>٠</span>
+            <p class="text-sm font-medium text-gray-600">دروس مكتملة</p>
+          </div>
+        </section>
 
-      <section class="glass-panel space-y-4 p-8">
-        <header class="flex flex-col gap-2">
-          <h2 class="font-display text-2xl text-gray-900">تقدم الدروس</h2>
-          <p class="text-sm text-gray-600">
-            راقب الدروس المكتملة والمتبقية، وتابع آخر الدرجات المحققة في الاختبارات.
-          </p>
-        </header>
+        <section class="glass-panel space-y-4 p-8">
+          <header class="flex flex-col gap-2">
+            <h2 class="font-display text-2xl text-gray-900">تقدم الدروس</h2>
+            <p class="text-sm text-gray-600">
+              راقب الدروس المكتملة والمتبقية، وتابع آخر الدرجات المحققة في الاختبارات.
+            </p>
+          </header>
 
-        {hasData && (
-          <ul class="space-y-4">
-            {normalizedProgress.map((item) => (
-              <li class="flex flex-col gap-4 rounded-2xl border border-gray-200 bg-white px-5 py-4 shadow-sm sm:flex-row sm:items-center sm:justify-between">
-                <div class="space-y-1 text-right">
-                  <p class="text-lg font-semibold text-gray-900">
-                    {item.lessonTitle}
-                  </p>
-                  <p class="text-xs text-gray-500">
-                    آخر تحديث: {formatDate(item.updatedAt)}
-                  </p>
-                </div>
-                <div class="flex flex-wrap items-center gap-3 text-xs font-semibold">
-                  <span class="rounded-full bg-primary-100 px-4 py-2 text-primary-700">
-                    المحاولات: {toArabicDigits(item.attempts)}
-                  </span>
-                  <span class={`rounded-full px-4 py-2 ${item.score >= 80 ? 'bg-green-100 text-green-700' : 'bg-amber-100 text-amber-700'}`}>
-                    الدرجة: {formatScore(item.score)}/١٠٠
-                  </span>
-                </div>
-              </li>
-            ))}
-          </ul>
-        )}
-
-        {!hasData && (
-          <div class="rounded-2xl border border-dashed border-gray-300 bg-gray-50 px-6 py-10 text-center text-sm text-gray-600">
+          <ul class="space-y-4" data-progress-list></ul>
+          <div class="hidden rounded-2xl border border-dashed border-gray-300 bg-gray-50 px-6 py-10 text-center text-sm text-gray-600" data-progress-empty>
             لم تُسجل أي محاولات بعد. ابدأ من الدورة الأولى لإظهار التقدم هنا.
           </div>
-        )}
-      </section>
+        </section>
+      </div>
     </div>
   </div>
 </MainLayout>
+
+<template id="progress-item-template">
+  <li class="flex flex-col gap-4 rounded-2xl border border-gray-200 bg-white px-5 py-4 shadow-sm sm:flex-row sm:items-center sm:justify-between">
+    <div class="space-y-1 text-right">
+      <p class="text-lg font-semibold text-gray-900" data-progress-title></p>
+      <p class="text-xs text-gray-500">
+        آخر تحديث: <span data-progress-updated>—</span>
+      </p>
+    </div>
+    <div class="flex flex-wrap items-center gap-3 text-xs font-semibold">
+      <span class="rounded-full bg-primary-100 px-4 py-2 text-primary-700">
+        المحاولات: <span data-progress-attempts>٠</span>
+      </span>
+      <span class="rounded-full px-4 py-2" data-progress-score-badge>
+        الدرجة: <span data-progress-score>٠</span>/١٠٠
+      </span>
+    </div>
+  </li>
+</template>
+
+<script type="module">
+  const DIGITS = ["٠", "١", "٢", "٣", "٤", "٥", "٦", "٧", "٨", "٩"];
+
+  const toArabicDigits = (value) =>
+    value
+      .toString()
+      .replace(/\\d/g, (digit) => DIGITS[Number(digit)] ?? digit);
+
+  function formatDate(value) {
+    if (!value) return "—";
+    try {
+      const date = typeof value === "number" ? new Date(value) : new Date(String(value));
+      return date.toLocaleString("ar-EG");
+    } catch {
+      return "—";
+    }
+  }
+
+  function updateStats(root, stats) {
+    root.querySelector("[data-stat-attempts]").textContent = toArabicDigits(stats.totalAttempts ?? 0);
+    root.querySelector("[data-stat-best]").textContent = toArabicDigits(stats.bestScore ?? 0);
+    root.querySelector("[data-stat-complete]").textContent = toArabicDigits(stats.completedLessons ?? 0);
+  }
+
+  function renderProgress(root, entries) {
+    const list = root.querySelector("[data-progress-list]");
+    const emptyState = root.querySelector("[data-progress-empty]");
+    const template = document.getElementById("progress-item-template");
+    if (!(list instanceof HTMLElement) || !(template instanceof HTMLTemplateElement)) return;
+
+    list.innerHTML = "";
+
+    if (!entries || entries.length === 0) {
+      emptyState?.classList.remove("hidden");
+      return;
+    }
+
+    emptyState?.classList.add("hidden");
+
+    entries.forEach((item) => {
+      const clone = template.content.firstElementChild?.cloneNode(true);
+      if (!(clone instanceof HTMLElement)) return;
+
+      clone.querySelector("[data-progress-title]").textContent = item.title ?? item.lessonSlug;
+      clone.querySelector("[data-progress-updated]").textContent = formatDate(item.updatedAt);
+      clone.querySelector("[data-progress-attempts]").textContent = toArabicDigits(item.attempts ?? 0);
+      clone.querySelector("[data-progress-score]").textContent = toArabicDigits(
+        Math.round(item.bestScore ?? item.lastScore ?? 0),
+      );
+
+      const badge = clone.querySelector("[data-progress-score-badge]");
+      if (badge instanceof HTMLElement) {
+        const scoreValue = item.bestScore ?? item.lastScore ?? 0;
+        badge.className =
+          "rounded-full px-4 py-2 " +
+          (scoreValue >= 80 ? "bg-green-100 text-green-700" : "bg-amber-100 text-amber-700");
+      }
+
+      list.appendChild(clone);
+    });
+  }
+
+  async function refreshDashboard(root) {
+    const anonBlock = root.querySelector("[data-dashboard-anon]");
+    const authBlock = root.querySelector("[data-dashboard-auth]");
+
+    try {
+      const response = await fetch("/api/me", {
+        method: "GET",
+        credentials: "include",
+      });
+
+      if (response.status === 401) {
+        anonBlock?.classList.remove("hidden");
+        authBlock?.classList.add("hidden");
+        return;
+      }
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch profile");
+      }
+
+      const data = await response.json();
+      anonBlock?.classList.add("hidden");
+      authBlock?.classList.remove("hidden");
+
+      updateStats(root, data.stats ?? {});
+      renderProgress(root, data.progress ?? []);
+    } catch (error) {
+      console.error("dashboard: failed to load profile", error);
+      anonBlock?.classList.remove("hidden");
+      authBlock?.classList.add("hidden");
+    }
+  }
+
+  const dashboardRoot = document.querySelector("[data-dashboard]");
+  if (dashboardRoot) {
+    refreshDashboard(dashboardRoot);
+    document.addEventListener("auth:state", () => refreshDashboard(dashboardRoot));
+  }
+</script>

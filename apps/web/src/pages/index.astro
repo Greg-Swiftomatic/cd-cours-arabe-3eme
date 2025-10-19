@@ -27,7 +27,15 @@ const stats = [
       <a href="/" class="font-display text-2xl font-bold text-primary-700">
         منصة العربية
       </a>
-      <div class="flex items-center gap-3">
+      <div class="flex flex-wrap items-center gap-3">
+        <span class="hidden rounded-full border border-primary-200 bg-primary-50 px-4 py-2 text-xs font-medium text-primary-700" data-auth-identity></span>
+        <button
+          type="button"
+          data-auth-open
+          class="rounded-full border border-gray-300 bg-white px-5 py-2 text-sm font-semibold text-gray-700 shadow-sm transition hover:bg-gray-50"
+        >
+          تسجيل الدخول
+        </button>
         <a
           href="/tableau-de-bord"
           class="rounded-full border border-gray-300 bg-white px-5 py-2 text-sm font-semibold text-gray-700 shadow-sm transition hover:bg-gray-50"

@@ -149,18 +149,58 @@ const hasQuestions = quiz && quiz.questions.length > 0;
       `;
 
       try {
-        await fetch("/api/attempts", {
+        const response = await fetch("/api/attempts", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
+          credentials: "include",
           body: JSON.stringify({
             lessonSlug: form.dataset.lesson,
             score,
             detail,
-            quizId: null,
           }),
         });
+
+        if (response.status === 401) {
+          resultBox.innerHTML += `
+            <div class="rounded-xl bg-amber-50 border border-amber-200 px-4 py-3 text-sm text-amber-800">
+              سجِّل الدخول لحفظ محاولتك وتتبع التقدم في لوحة المتابعة.
+            </div>
+          `;
+          document
+            .querySelector('[data-auth-open]')
+            ?.dispatchEvent(new Event('click', { bubbles: true }));
+          return;
+        }
+
+        const data = await response.json();
+        if (!response.ok || !data.success) {
+          throw new Error(data?.message ?? "تعذر حفظ المحاولة.");
+        }
+
+        if (data.progress) {
+          let bestScoreValue = score;
+          if (Array.isArray(data.progress)) {
+            const lessonEntry = data.progress.find(
+              (item) => item.lessonSlug === form.dataset.lesson,
+            );
+            if (lessonEntry && typeof lessonEntry.bestScore === "number") {
+              bestScoreValue = lessonEntry.bestScore;
+            }
+          }
+
+          resultBox.innerHTML += `
+            <div class="rounded-xl bg-emerald-50 border border-emerald-200 px-4 py-3 text-sm text-emerald-700">
+              تم حفظ محاولتك. أفضل نتيجة حتى الآن: ${bestScoreValue}/100.
+            </div>
+          `;
+        }
       } catch (error) {
         console.error("تعذر حفظ المحاولة", error);
+        resultBox.innerHTML += `
+          <div class="rounded-xl bg-red-50 border border-red-200 px-4 py-3 text-sm text-red-700">
+            حدث خطأ أثناء حفظ المحاولة. حاول مرة أخرى.
+          </div>
+        `;
       }
     });
   }
