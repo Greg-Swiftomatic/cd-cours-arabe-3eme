@@ -13,7 +13,7 @@ export const users = sqliteTable("users", {
   email: text("email").notNull().unique(),
   name: text("name"),
   role: text("role").default("student"),
-  createdAt: integer("created_at", { mode: "timestamp_ms" }).default(
+  createdAt: integer("created_at").default(
     sql`(strftime('%s','now') * 1000)`,
   ),
 });
@@ -42,10 +42,10 @@ export const attempts = sqliteTable("attempts", {
   quizId: integer("quiz_id").references(() => quizzes.id),
   userId: integer("user_id").references(() => users.id),
   lessonId: integer("lesson_id").references(() => lessons.id),
-  startedAt: integer("started_at", { mode: "timestamp_ms" }).default(
+  startedAt: integer("started_at").default(
     sql`(strftime('%s','now') * 1000)`,
   ),
-  finishedAt: integer("finished_at", { mode: "timestamp_ms" }),
+  finishedAt: integer("finished_at"),
   score: real("score"),
   detailJson: text("detail_json"),
 });
@@ -65,11 +65,11 @@ export const loginCodes = sqliteTable(
     id: integer("id").primaryKey({ autoIncrement: true }),
     email: text("email").notNull(),
     codeHash: text("code_hash").notNull(),
-    createdAt: integer("created_at", { mode: "timestamp_ms" }).default(
+    createdAt: integer("created_at").default(
       sql`(strftime('%s','now') * 1000)`,
     ),
-    expiresAt: integer("expires_at", { mode: "timestamp_ms" }).notNull(),
-    usedAt: integer("used_at", { mode: "timestamp_ms" }),
+    expiresAt: integer("expires_at").notNull(),
+    usedAt: integer("used_at"),
   },
   (table) => ({
     emailIdx: index("login_codes_email_idx").on(table.email),
@@ -84,11 +84,11 @@ export const sessions = sqliteTable(
       .notNull()
       .references(() => users.id),
     tokenHash: text("token_hash").notNull(),
-    createdAt: integer("created_at", { mode: "timestamp_ms" }).default(
+    createdAt: integer("created_at").default(
       sql`(strftime('%s','now') * 1000)`,
     ),
-    expiresAt: integer("expires_at", { mode: "timestamp_ms" }).notNull(),
-    lastSeen: integer("last_seen", { mode: "timestamp_ms" }).default(
+    expiresAt: integer("expires_at").notNull(),
+    lastSeen: integer("last_seen").default(
       sql`(strftime('%s','now') * 1000)`,
     ),
   },
