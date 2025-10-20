@@ -1,10 +1,7 @@
 import type { PagesFunction } from "@cloudflare/workers-types";
 import { eq } from "drizzle-orm";
 import { getDb, schema } from "@lib/db";
-import {
-  generateOneTimeCode,
-  hashString,
-} from "@lib/auth";
+import { generateOneTimeCode, hashString } from "@lib/auth";
 
 type LoginPayload = {
   email?: string;
@@ -12,8 +9,7 @@ type LoginPayload = {
 
 const CODE_TTL_MS = 10 * 60 * 1000; // 10 minutes
 
-const emailPattern =
-  /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+const emailPattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 
 export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
   const body = (await request.json().catch(() => ({}))) as LoginPayload;
@@ -43,10 +39,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
     .all();
 
   if (user.length === 0) {
-    await db
-      .insert(schema.users)
-      .values({ email })
-      .run();
+    await db.insert(schema.users).values({ email }).run();
 
     user = await db
       .select()
