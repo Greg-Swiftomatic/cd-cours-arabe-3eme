@@ -21,9 +21,7 @@ const contentModules = import.meta.glob<ContentRecord>("../../content/**/*.json"
 
 export const POST: APIRoute = async ({ request, locals }) => {
   try {
-    // Temporarily allow unauthenticated seeding for initial setup
-    // TODO: Re-enable authentication after initial seed
-    /*
+    // Require authentication if SEED_TOKEN is set
     const seedToken = locals.runtime.env.SEED_TOKEN;
     if (seedToken) {
       const authHeader = request.headers.get("Authorization");
@@ -37,7 +35,6 @@ export const POST: APIRoute = async ({ request, locals }) => {
         );
       }
     }
-    */
 
     const db = getDb(locals.runtime.env);
     let lessonsUpserted = 0;
