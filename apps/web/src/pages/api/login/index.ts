@@ -11,24 +11,47 @@ const CODE_TTL_MS = 10 * 60 * 1000; // 10 minutes
 const emailPattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 
 export const POST: APIRoute = async ({ request, locals }) => {
-  const body = (await request.json().catch(() => ({}))) as LoginPayload;
-  const rawEmail = body.email?.trim();
+  try {
+    const body = (await request.json().catch(() => ({}))) as LoginPayload;
+    const rawEmail = body.email?.trim();
 
-  if (!rawEmail || !emailPattern.test(rawEmail)) {
-    return new Response(
-      JSON.stringify({
-        success: false,
-        message: "يرجى إدخال بريد إلكتروني صالح.",
-      }),
-      {
-        status: 400,
-        headers: { "Content-Type": "application/json" },
-      },
-    );
-  }
+    if (!rawEmail || !emailPattern.test(rawEmail)) {
+      return new Response(
+        JSON.stringify({
+          success: false,
+          message: "يرجى إدخال بريد إلكتروني صالح.",
+        }),
+        {
+          status: 400,
+          headers: { "Content-Type": "application/json" },
+        },
+      );
+    }
 
-  const email = rawEmail.toLowerCase();
-  const db = getDb(locals.runtime.env);
+    const email = rawEmail.toLowerCase();
+
+    // Access the runtime environment
+    const runtime = locals.runtime;
+    if (!runtime || !runtime.env || !runtime.env.DB) {
+      return new Response(
+        JSON.stringify({
+          success: false,
+          message: "خطأ في الخادم: لم يتم العثور على قاعدة البيانات",
+          debug: {
+            hasLocals: !!locals,
+            hasRuntime: !!locals?.runtime,
+            hasEnv: !!locals?.runtime?.env,
+            hasDB: !!locals?.runtime?.env?.DB,
+          },
+        }),
+        {
+          status: 500,
+          headers: { "Content-Type": "application/json" },
+        },
+      );
+    }
+
+    const db = getDb(runtime.env);
 
   let user = await db
     .select()
@@ -85,4 +108,17 @@ export const POST: APIRoute = async ({ request, locals }) => {
       headers: { "Content-Type": "application/json" },
     },
   );
+  } catch (error) {
+    return new Response(
+      JSON.stringify({
+        success: false,
+        message: "خطأ في الخادم",
+        error: error instanceof Error ? error.message : String(error),
+      }),
+      {
+        status: 500,
+        headers: { "Content-Type": "application/json" },
+      },
+    );
+  }
 };
