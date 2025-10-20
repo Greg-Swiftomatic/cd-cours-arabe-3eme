@@ -20,27 +20,36 @@ const contentModules = import.meta.glob<ContentRecord>("../../content/**/*.json"
 });
 
 export const POST: APIRoute = async ({ request, locals }) => {
-  // Temporarily allow unauthenticated seeding for initial setup
-  // TODO: Re-enable authentication after initial seed
-  /*
-  const seedToken = locals.runtime.env.SEED_TOKEN;
-  if (seedToken) {
-    const authHeader = request.headers.get("Authorization");
-    if (authHeader !== `Bearer ${seedToken}`) {
+  try {
+    // Temporarily allow unauthenticated seeding for initial setup
+    // TODO: Re-enable authentication after initial seed
+    /*
+    const seedToken = locals.runtime.env.SEED_TOKEN;
+    if (seedToken) {
+      const authHeader = request.headers.get("Authorization");
+      if (authHeader !== `Bearer ${seedToken}`) {
+        return new Response(
+          JSON.stringify({ success: false, message: "ممنوع الوصول إلى الاستيراد." }),
+          {
+            status: 401,
+            headers: { "Content-Type": "application/json" },
+          },
+        );
+      }
+    }
+    */
+
+    const db = getDb(locals.runtime.env);
+    let lessonsUpserted = 0;
+    let quizzesUpserted = 0;
+
+    const moduleCount = Object.keys(contentModules).length;
+    if (moduleCount === 0) {
       return new Response(
-        JSON.stringify({ success: false, message: "ممنوع الوصول إلى الاستيراد." }),
-        {
-          status: 401,
-          headers: { "Content-Type": "application/json" },
-        },
+        JSON.stringify({ success: false, message: "لم يتم العثور على محتوى للاستيراد", filesProcessed: 0 }),
+        { status: 404, headers: { "Content-Type": "application/json" } },
       );
     }
-  }
-  */
-
-  const db = getDb(locals.runtime.env);
-  let lessonsUpserted = 0;
-  let quizzesUpserted = 0;
 
   for (const moduleRecord of Object.values(contentModules)) {
     const record = moduleRecord;
@@ -130,4 +139,17 @@ export const POST: APIRoute = async ({ request, locals }) => {
     }),
     { headers: { "Content-Type": "application/json" } },
   );
+  } catch (error) {
+    return new Response(
+      JSON.stringify({
+        success: false,
+        message: "خطأ أثناء الاستيراد",
+        error: error instanceof Error ? error.message : String(error),
+      }),
+      {
+        status: 500,
+        headers: { "Content-Type": "application/json" },
+      },
+    );
+  }
 };
