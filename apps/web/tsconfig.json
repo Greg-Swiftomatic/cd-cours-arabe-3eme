@@ -8,7 +8,7 @@
       "@components/*": ["src/components/*"],
       "@layouts/*": ["src/layouts/*"],
       "@scripts/*": ["src/scripts/*"],
-      "@db/*": ["../packages/db/*"]
+      "@db/*": ["../../packages/db/*"]
     }
   }
 }
