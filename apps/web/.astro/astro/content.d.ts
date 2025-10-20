@@ -145,13 +145,108 @@ declare module 'astro:content' {
 
 	type DataEntryMap = {
 		"cycle1": {
-"01-aamal-al-masdar": {
-	id: "01-aamal-al-masdar";
+"00-summary": {
+	id: "00-summary";
+  collection: "cycle1";
+  data: any
+};
+"02-ism-fael-siyagh": {
+	id: "02-ism-fael-siyagh";
+  collection: "cycle1";
+  data: any
+};
+"03-ism-mafoul": {
+	id: "03-ism-mafoul";
+  collection: "cycle1";
+  data: any
+};
+"04-zaman-makan": {
+	id: "04-zaman-makan";
+  collection: "cycle1";
+  data: any
+};
+"05-ism-alah": {
+	id: "05-ism-alah";
+  collection: "cycle1";
+  data: any
+};
+"06-ielal": {
+	id: "06-ielal";
+  collection: "cycle1";
+  data: any
+};
+"07-ibdal": {
+	id: "07-ibdal";
+  collection: "cycle1";
+  data: any
+};
+"08-tasghir": {
+	id: "08-tasghir";
+  collection: "cycle1";
+  data: any
+};
+"09-nisba": {
+	id: "09-nisba";
+  collection: "cycle1";
+  data: any
+};
+"10-maajem": {
+	id: "10-maajem";
   collection: "cycle1";
   data: any
 };
 };
 "cycle2": {
+"01-idafa": {
+	id: "01-idafa";
+  collection: "cycle2";
+  data: any
+};
+"02-mamnoo-sarf": {
+	id: "02-mamnoo-sarf";
+  collection: "cycle2";
+  data: any
+};
+"03-sifa-mushabaha": {
+	id: "03-sifa-mushabaha";
+  collection: "cycle2";
+  data: any
+};
+"04-ism-tafdil": {
+	id: "04-ism-tafdil";
+  collection: "cycle2";
+  data: any
+};
+"05-uslub-taajub": {
+	id: "05-uslub-taajub";
+  collection: "cycle2";
+  data: any
+};
+"06-uslub-madh-dham": {
+	id: "06-uslub-madh-dham";
+  collection: "cycle2";
+  data: any
+};
+"07-uslub-nida": {
+	id: "07-uslub-nida";
+  collection: "cycle2";
+  data: any
+};
+"08-uslub-tahdir-ighra": {
+	id: "08-uslub-tahdir-ighra";
+  collection: "cycle2";
+  data: any
+};
+"09-uslub-ikhtisas": {
+	id: "09-uslub-ikhtisas";
+  collection: "cycle2";
+  data: any
+};
+"10-uslub-istifham": {
+	id: "10-uslub-istifham";
+  collection: "cycle2";
+  data: any
+};
 "preview": {
 	id: "preview";
   collection: "cycle2";
