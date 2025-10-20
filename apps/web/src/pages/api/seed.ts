@@ -58,76 +58,75 @@ export const POST: APIRoute = async ({ request, locals }) => {
     const lessonData = record.lesson;
     const quizData = record.quiz ?? null;
 
-    await db.transaction(async (tx) => {
-      const existingLessons = await tx
-        .select({ id: schema.lessons.id })
-        .from(schema.lessons)
-        .where(eq(schema.lessons.slug, lessonData.slug))
+    // D1 doesn't support db.transaction() - run queries directly
+    const existingLessons = await db
+      .select({ id: schema.lessons.id })
+      .from(schema.lessons)
+      .where(eq(schema.lessons.slug, lessonData.slug))
+      .limit(1)
+      .all();
+
+    let lessonId: number;
+
+    if (existingLessons.length > 0) {
+      lessonId = existingLessons[0].id;
+      await db
+        .update(schema.lessons)
+        .set({
+          cycle: lessonData.cycle,
+          order: lessonData.order,
+          titleAr: lessonData.title_ar,
+          titleFr: lessonData.title_fr ?? null,
+          bodyHtmlAr: lessonData.body_html_ar,
+          bodyHtmlFr: lessonData.body_html_fr ?? null,
+        })
+        .where(eq(schema.lessons.id, lessonId))
+        .run();
+    } else {
+      const inserted = await db
+        .insert(schema.lessons)
+        .values({
+          cycle: lessonData.cycle,
+          slug: lessonData.slug,
+          order: lessonData.order,
+          titleAr: lessonData.title_ar,
+          titleFr: lessonData.title_fr ?? null,
+          bodyHtmlAr: lessonData.body_html_ar,
+          bodyHtmlFr: lessonData.body_html_fr ?? null,
+        })
+        .returning({ id: schema.lessons.id })
+        .get();
+
+      lessonId = inserted.id;
+    }
+
+    lessonsUpserted += 1;
+
+    if (quizData) {
+      const existingQuiz = await db
+        .select({ id: schema.quizzes.id })
+        .from(schema.quizzes)
+        .where(eq(schema.quizzes.lessonId, lessonId))
         .limit(1)
         .all();
 
-      let lessonId: number;
+      const configJson = JSON.stringify(quizData);
 
-      if (existingLessons.length > 0) {
-        lessonId = existingLessons[0].id;
-        await tx
-          .update(schema.lessons)
-          .set({
-            cycle: lessonData.cycle,
-            order: lessonData.order,
-            titleAr: lessonData.title_ar,
-            titleFr: lessonData.title_fr ?? null,
-            bodyHtmlAr: lessonData.body_html_ar,
-            bodyHtmlFr: lessonData.body_html_fr ?? null,
-          })
-          .where(eq(schema.lessons.id, lessonId))
+      if (existingQuiz.length > 0) {
+        await db
+          .update(schema.quizzes)
+          .set({ configJson })
+          .where(eq(schema.quizzes.id, existingQuiz[0].id))
           .run();
       } else {
-        const inserted = await tx
-          .insert(schema.lessons)
-          .values({
-            cycle: lessonData.cycle,
-            slug: lessonData.slug,
-            order: lessonData.order,
-            titleAr: lessonData.title_ar,
-            titleFr: lessonData.title_fr ?? null,
-            bodyHtmlAr: lessonData.body_html_ar,
-            bodyHtmlFr: lessonData.body_html_fr ?? null,
-          })
-          .returning({ id: schema.lessons.id })
-          .get();
-
-        lessonId = inserted.id;
+        await db
+          .insert(schema.quizzes)
+          .values({ lessonId, configJson })
+          .run();
       }
 
-      lessonsUpserted += 1;
-
-      if (quizData) {
-        const existingQuiz = await tx
-          .select({ id: schema.quizzes.id })
-          .from(schema.quizzes)
-          .where(eq(schema.quizzes.lessonId, lessonId))
-          .limit(1)
-          .all();
-
-        const configJson = JSON.stringify(quizData);
-
-        if (existingQuiz.length > 0) {
-          await tx
-            .update(schema.quizzes)
-            .set({ configJson })
-            .where(eq(schema.quizzes.id, existingQuiz[0].id))
-            .run();
-        } else {
-          await tx
-            .insert(schema.quizzes)
-            .values({ lessonId, configJson })
-            .run();
-        }
-
-        quizzesUpserted += 1;
-      }
-    });
+      quizzesUpserted += 1;
+    }
   }
 
   return new Response(
